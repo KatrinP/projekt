@@ -5,6 +5,7 @@ import subprocess
 
 def get_fitness(vector):
     sim_case_dir = os.path.join(os.getcwd(), 'sim_case')
+    shutil.copy("BASE_origin.tmp", sim_case_dir)
     sim_case = os.path.join(sim_case_dir, "BASE_origin.tmp")
     sim_case_tmp = os.path.join(sim_case_dir, "BASE.DATA")
     run_eclipse = 'run_eclipse.py'

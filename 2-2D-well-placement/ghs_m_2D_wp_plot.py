@@ -109,6 +109,9 @@ if __name__ == "__main__":
     if os.path.exists('results/ghs_m_2D_wp_plot_runtime.txt'):
         os.remove('results/ghs_m_2D_wp_plot_runtime.txt')
 
+    path00 = os.path.join(os.getcwd(), 'data', 'ghs_m_2D_wp')
+    if not os.path.exists(path00):
+        os.mkdir(path00)
     path='data/ghs_m_2D_wp/'
     for directory in os.listdir(path):
         spam = os.path.join(path,directory)
