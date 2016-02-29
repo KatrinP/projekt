@@ -4,6 +4,11 @@
 **/results
 **/sim_case
 **/*.txt
+**/*.lnk
+**/*.db
+**/*.CMDLOG
+**/*.log
+**/*.CFG
 
 #########################
 ## DEFAULT FOR PYTHON ###

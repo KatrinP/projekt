@@ -1,0 +1,175 @@
+﻿-- making it more similiar to skarv field 
+--
+--RUNSPEC section---------------------------------------------------
+
+RUNSPEC
+
+METRIC
+
+OIL
+WATER
+GAS
+
+MISCIBLE
+/
+
+--CO2SOL
+
+AIM
+
+COMPS
+6 /
+
+BRINE
+
+DIMENS
+10 10 3 /
+
+WELLDIMS
+2 2 /
+
+EQLDIMS
+1 20 /
+
+START
+1 Jan 1990 /
+
+--Grid section--------------------------------------------------------
+
+GRID
+
+INIT
+
+--Basic grid block sizes
+
+EQUALS
+DX 277.5 /
+DY 277.5 /
+DZ 25 /
+PORO 0.18 /
+PERMX 800 /
+PERMY 800 /
+PERMZ 80 /
+TOPS 3584 4* 1 1 /
+/
+
+--Properties section-----------------------------------------------
+
+PROPS
+
+INCLUDE
+    'include/sim1D-scal-metric.rcp' /
+
+-- Properties section: PVT data from INCLUDE file
+ 
+INCLUDE
+  'include/sim1D-pvt-metric.PVO'  /
+
+
+--Rock and water pressure data
+
+ROCK
+244.7639 4.934E-5 /
+
+--Surface densities : only the water value is used
+
+-- fluid at surface conditions
+-- DEFAULT: Oil 600 kg/m3 | Wat 999.014 kg/m 3 | Gas 1 kg/m 3 
+DENSITY
+1* 1* 1* /
+
+PVTWSALT
+-- Pref Sref
+  244.76 0.0 /
+--  S   Bw       Cw         Vw      Cvw       
+--      RB/STB   1/bar      CPOISE  1/bar  
+   0.0  1.00     4.351e-005 0.31    0.0
+  28.5  0.975    4.351e-005 0.31    0.0
+  57.0  0.95     4.351e-005 0.31    0.0
+/
+
+--Solution section------------------------------------------------------
+
+SOLUTION
+
+EQUIL
+3584 370.66 3710 0 3584 0 / --1 1 0  /
+
+SALTVD
+-- m | kg/m3
+  304  57
+  4000 57 
+/
+
+RPTSOL
+PRESSURE SOIL SWAT SGAS PSAT /
+
+RPTRST
+'BASIC=2' PRESSURE SOIL SGAS SWAT DENW FIP PORV PSAT/
+
+--Summary section-------------------------------------------------------
+
+SUMMARY
+
+ALL
+
+FOE
+
+-- reservoir volume
+-Pore Volume at Reservoir conditions
+FRPV
+
+--Brine option quantities
+FSPR
+WSPR
+/
+FSPT
+WSPT
+/
+FSIR
+WSIR
+/
+FSIT
+WSIT
+/
+FSIP
+
+PERFORMANCE
+RUNSUM
+
+--Schedule section------------------------------------------------------
+
+SCHEDULE
+
+--Request FIP reports, group, sep and well data, and solution maps.
+SAVEEND
+
+--Define injection and production wells
+WELSPECS
+'Inje' 'Field'  1  1 1* WAT /
+'Prod' 'Field' 10 10 1* OIL /
+/
+
+COMPDAT
+'Inje'  1  1 1 1 1* 1 /
+'Prod' 10 10 2 3 1* 1 /
+/
+
+WCONPROD
+'Prod' OPEN ORAT 5000 / 5* 344.7 /
+/
+--WELTARG
+--'Prod' ORAT 5000/
+--/
+
+TSTEP
+4*91.25 /
+
+--INCLUDE
+--'include/sim1D-schedule-primary.INC' /
+--'include/sim1D-schedule-secondary.INC' /
+--'include/sim1D-schedule-WAG.INC' /
+--'include/sim1D-schedule-secondary_WAG.INC' /
+--'include/sim1D-schedule-secondary_WAG_wat.INC' /
+
+END

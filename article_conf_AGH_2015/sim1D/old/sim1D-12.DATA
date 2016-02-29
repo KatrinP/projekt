@@ -1,0 +1,350 @@
+﻿-- simple 1D model
+-- skar props
+--
+-- added CO2SOL
+--
+--RUNSPEC section---------------------------------------------------
+
+RUNSPEC
+
+METRIC
+
+OIL
+WATER
+GAS
+
+--MISCIBLE
+--/
+
+CO2SOL
+
+AIM
+
+COMPS
+9 /
+
+BRINE
+
+DIMENS
+20 1 1 /
+
+WELLDIMS
+2 2 /
+
+EQLDIMS
+1 20 /
+
+START
+1 Jan 1990 /
+
+--Grid section--------------------------------------------------------
+
+GRID
+
+INIT
+
+--Basic grid block sizes
+
+EQUALS
+DX 150 /
+DY 300 /
+DZ 75 /
+PORO 0.18 /
+PERMX 440 /
+PERMY 440 /
+PERMZ 40 /
+TOPS 3584 4* 1 1 /
+/
+
+--Properties section-----------------------------------------------
+
+PROPS
+
+EOS                                 
+  PR /
+
+PRCORR                                
+
+CNAMES                               
+  C1N2 CO2
+ C2
+ C3C4
+ C5C6
+ C7C10
+ C11C15
+ C16C30
+ C31P /
+
+TCRIT                                 
+  189.63 304.12 305.32 389.27 486.35 576.67 674.54 784.42 932.28 /
+
+PCRIT                                  -- Generated : Petrel
+  45.8255 73.7400 48.7200 40.4223 33.3613 26.8979 19.9467 14.2005 9.2233 /
+
+VCRIT                                  -- Generated : Petrel
+  0.09849 0.09407 0.14550 0.22114 0.33637 0.48706 0.73445 1.18701 2.40543 /
+
+ZCRIT                                  -- Generated : Petrel
+  0.28626 0.27433 0.27924 0.27619 0.27751 0.27324 0.26121 0.25845 0.28622 /
+
+MW                                     -- Generated : Petrel
+  16.19 44.01 30.07 49.29 77.57 117.51 178.63 295.97 567.26 /
+
+ACF                                    -- Generated : Petrel
+  0.01122 0.225 0.099 0.16878 0.2457 0.34303 0.50473 0.74404 1.20313 /
+
+OMEGAA                                 -- Generated : Petrel
+  9*0.457236 /
+
+OMEGAB                                 -- Generated : Petrel
+  9*0.077796 /
+
+SSHIFT                                 -- Generated : Petrel
+  -0.15016 0.00191 -0.0628 -0.06049 -0.03022 -0.01316 0.05963 0.08266 0.08815 /
+
+BIC                                    -- Generated : Petrel
+  0.10401 -0.00012 0.13 0.00052 0.1213 0.0 0.00065 0.115 0.0 0.0 0.05579 0.115 0.0 0.0 0.0 0.08091 0.115 0.0 0.0 0.0 0.0 0.10726
+  0.115 5*0.0 0.11793 0.115 6*0.0 /
+
+PARACHOR                               -- Generated : Petrel
+  70.85 80 111 165.6 233.23 317.02 463.7 745.33 1396.41 /
+
+TEMPVD                                 -- Generated : Petrel
+  0.30 123.00
+  3584.11 123.00
+  3584.14 123.00
+  4572.00 123.00
+  /
+
+ZMFVD                                  -- Generated : Petrel
+  0.30
+  0.817312 0.021201 0.0606 0.045879 0.013869 0.026938 0.010192 0.003902 0.000106
+  3584.11
+  0.817312 0.021201 0.0606 0.045879 0.013869 0.026938 0.010192 0.003902 0.000106
+  3584.14
+  0.564512 0.018928 0.063168 0.061895 0.026888 0.089039 0.068128 0.081652 0.02579
+  4572.00
+  0.564512 0.018928 0.063168 0.061895 0.026888 0.089039 0.068128 0.081652 0.02579
+  /
+
+
+DENSITY                               
+  1*         1035 /
+
+ROCKOPTS                              
+  1* 1* ROCKNUM /
+
+ROCK                                  
+      370.3174  5.8015E-005 /
+
+FILLEPS                            
+
+SWOF                                
+          0.25            0            1            0
+         0.278       4E-007      0.81814            0
+         0.317       3E-005      0.60816            0
+          0.39      0.00088       0.3276            0
+         0.432       0.0031      0.21913            0
+         0.514      0.01846      0.08758            0
+         0.546      0.03197      0.05752            0
+           0.6      0.07147       0.0253            0
+           0.7      0.23879      0.00296            0
+          0.75      0.39596      0.00054            0
+           0.8      0.62566       3E-005            0
+          0.85         0.95            0            0
+           0.9            1            0            0
+             1            1            0            0
+  /
+
+
+SGOF                                
+             0            0            1            0
+         0.035            0      0.77691            0
+         0.118      0.01348      0.39862            0
+         0.158      0.02959      0.27704            0
+         0.186       0.0446      0.21046            0
+         0.223      0.06914      0.14204            0
+          0.27      0.10802      0.08119            0
+         0.292       0.1292      0.06077            0
+         0.315      0.15336      0.04386            0
+         0.336      0.17722      0.03181            0
+         0.363      0.21044      0.02022            0
+         0.393       0.2507      0.01145            0
+         0.414      0.28097      0.00731            0
+          0.43       0.3052      0.00501            0
+         0.454      0.34341      0.00264            0
+           0.5      0.42295      0.00054            0
+           0.6      0.62443            0            0
+          0.75            1            0            0
+  /
+
+--Metric units
+SOLUBILS
+0.0 999.0 /
+1.0132 0.3038 1.03504 0.30 0.4E-4
+533.7694 36.5522 0.98431 0.30 0.4E-4
+1013.2500 43.4860 0.96725 0.30 0.4E-4
+/
+10. 1020.0 /
+1.0132 0.2947 1.03504 0.30 0.4E-4
+533.7694 35.4555 0.98431 0.30 0.4E-4
+1013.2500 42.1814 0.96725 0.30 0.4E-4
+/
+20.0 1030.0 /
+1.0132 0.2879 1.03504 0.30 0.4E-4
+533.7694 34.6367 0.98431 0.30 0.4E-4
+1013.2500 41.2073 0.96725 0.30 0.4E-4
+/
+/ null record terminates table
+
+--Solution section------------------------------------------------------
+
+SOLUTION
+
+EQUIL
+3584 370.66 3710 0 3584 0 / --1 1 0  /
+
+SALTVD
+-- m | kg/m3
+  304  57
+  4000 57 
+/
+
+RPTSOL
+PRESSURE SOIL SWAT SGAS PSAT /
+
+RPTRST
+'BASIC=2' PRESSURE SOIL SGAS SWAT DENW FIP PORV PSAT/
+
+--Summary section-------------------------------------------------------
+
+SUMMARY
+
+ALL
+
+FOE
+
+-- reservoir volume
+-Pore Volume at Reservoir conditions
+FRPV
+
+--Brine option quantities
+FSPR
+WSPR
+/
+FSPT
+WSPT
+/
+FSIR
+WSIR
+/
+FSIT
+WSIT
+/
+FSIP
+
+PERFORMANCE
+DATE
+
+--Schedule section------------------------------------------------------
+
+SCHEDULE
+
+--Request FIP reports, group, sep and well data, and solution maps.
+SAVEEND
+
+--Define injection and production wells
+WELSPECS
+'Inje' 'Field'  1  1 1* WAT /
+'Prod' 'Field'  20 1 1* OIL /
+/
+
+COMPDAT
+'Inje'  1  1 1 1 1* 1 /
+'Prod'  20 1 1 1 1* 1 /
+/
+
+WCONPROD
+'Prod' OPEN ORAT 1000 / 5* 344.7 /
+/
+--WELTARG
+--'Prod' ORAT 5000/
+--/
+
+--TSTEP
+--4*91.25 /
+
+
+--Start Water injecting -----------------------------------------------------
+-- 0.2 PV in 5 years of water
+
+WCONINJE
+'Inje' WAT OPEN BHP 2* 350 /
+/
+
+WSALT
+'Inje' 0.0 /
+/
+
+WELTARG
+'Inje' WRATE  1350 /
+/
+
+--TSTEP
+--60*30 /
+--20*91.25 /
+
+--Start WAG cycles-----------------------------------------------------
+-- 0.6 PV in 5 years
+WCONINJE
+'Inje' WAT OPEN BHP 2* 350 /
+/
+
+WSALT
+'Inje' 0.0 /
+/
+
+WELLSTRE
+--       CO2  N2   C1   C3   C10  C15
+SOLVENT  0.0  0.0  .65  .35  0.0  0.0  /
+CO2      0.98  0.01  0.01  0.0  0.0  0.0  /
+/
+
+WCONINJE
+'Inje' GAS OPEN RATE 1350 /
+/
+WINJGAS
+--'Inje' Stream SOLVENT /
+'Inje' Stream CO2   /
+/
+
+--Resets a well operating target or limit
+--ORAT Oil rate| WRAT Water rate| GRAT Gas rate
+--LRAT Liquid rate| RESV Reservoir fluid volume rate| BHP Bottom hole pressure
+WELTARG
+'Inje' WRATE 1350 /
+/
+
+WELLWAG
+'Inje' T W 91.25 G 91.25 /
+/
+
+TSTEP
+6*30 /
+--4*91.25 /
+
+
+--Start Chase water cycles-----------------------------------------------------
+
+WSALT
+'Inje' 0.0 /
+/
+
+WELTARG
+'Inje' WRATE  1000/
+/
+
+--TSTEP
+--4*91.25 /
+
+END

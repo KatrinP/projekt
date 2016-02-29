@@ -1,0 +1,214 @@
+ECHO
+-- Units: C
+RTEMP
+-- 
+-- Constant Reservoir Temperature
+-- 
+         160
+/
+ 
+EOS
+-- 
+-- Equation of State (Reservoir EoS)
+-- 
+   PR3
+/
+ 
+NCOMPS
+-- 
+-- Number of Components
+-- 
+       6
+/
+PRCORR
+-- 
+-- Modified Peng-Robinson EoS
+-- 
+CNAMES
+-- 
+-- Component Names
+-- 
+   'CO2'
+   'N2'
+   'C1'
+   'C3'
+   'C10'
+   'C15'
+/
+MW
+-- 
+-- Molecular Weights (Reservoir EoS)
+-- 
+         44.01
+        28.013
+        16.043
+        44.097
+           134
+           206
+/
+ 
+OMEGAA
+-- 
+-- EoS Omega-a Coefficient (Reservoir EoS)
+-- 
+   0.457235529
+   0.457235529
+   0.457235529
+   0.457235529
+   0.457235529
+   0.457235529
+/
+ 
+OMEGAB
+-- 
+-- EoS Omega-b Coefficient (Reservoir EoS)
+-- 
+   0.077796074
+   0.077796074
+   0.077796074
+   0.077796074
+   0.077796074
+   0.077796074
+/
+ 
+-- Units: K
+TCRIT
+-- 
+-- Critical Temperatures (Reservoir EoS)
+-- 
+   304.700008071794
+   126.200003343158
+   190.600005049176
+   369.800009796355
+   626.000016583337
+   724.000019179451
+/
+ 
+-- Units: bar
+PCRIT
+-- 
+-- Critical Pressures (Reservoir EoS)
+-- 
+     73.865925
+     33.943875
+      46.04208
+     42.657825
+      24.19641
+    17.6001525
+/
+ 
+-- Units: m3 /kg-mole
+VCRIT
+-- 
+-- Critical Volumes (Reservoir EoS)
+-- 
+         0.094
+          0.09
+         0.098
+           0.2
+         0.534
+         0.779
+/
+ 
+ZCRIT
+-- 
+-- Critical Z-Factors (Reservoir EoS)
+-- 
+   0.274077790112645
+   0.29115139667704
+   0.284729469085827
+   0.277482820900554
+   0.248251660743785
+   0.227766383539573
+/
+ 
+SSHIFT
+-- 
+-- EoS Volume Shift (Reservoir EoS)
+-- 
+   -0.04273033846
+   -0.1313342385
+   -0.1442656185
+   -0.07750138246
+   0.09246641315
+   0.1524746352
+/
+ 
+ACF
+-- 
+-- Acentric Factors (Reservoir EoS)
+-- 
+         0.225
+          0.04
+         0.013
+        0.1524
+         0.385
+          0.55
+/
+ 
+BIC
+-- 
+-- Binary Interaction Coefficients (Reservoir EoS)
+-- 
+  -0.012
+     0.1     0.1
+     0.1     0.1       0
+     0.1     0.1 0.04162    0.01
+     0.1     0.1 0.04918    0.01       0
+/
+ 
+PARACHOR
+-- 
+-- Component Parachors
+-- 
+            78
+            41
+            77
+         150.3
+         404.9
+         550.6
+/
+ 
+-- Units: m3 /kg-mole
+VCRITVIS
+-- 
+-- Critical Volumes for Viscosity Calc (Reservoir EoS)
+-- 
+         0.094
+          0.09
+         0.098
+           0.2
+         0.534
+         0.779
+/
+ 
+ZCRITVIS
+-- 
+-- Critical Z-Factors for Viscosity Calculation (Reservoir EoS)
+-- 
+   0.274077790112645
+   0.29115139667704
+   0.284729469085827
+   0.277482820900554
+   0.248251660743785
+   0.227766383539573
+/
+ 
+LBCCOEF
+-- 
+-- Lorentz-Bray-Clark Viscosity Correlation Coefficients
+-- 
+    0.1023 0.023364 0.058533 -0.040758 0.0093324
+/
+--END
+ZI
+-- 
+-- Overall Composition
+          0.01
+          0.01
+           0.5
+          0.15
+          0.15
+          0.18
+/
+ 
