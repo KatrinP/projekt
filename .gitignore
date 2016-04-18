@@ -2,13 +2,16 @@
 **/data
 **/plots
 **/results
-**/sim_case
+#**/sim_case
 **/*.txt
 **/*.lnk
 **/*.db
 **/*.CMDLOG
 **/*.log
 **/*.CFG
+**/sim_case/*
+!**/sim_case/include
+!**/sim_case/*.DATA
 
 #########################
 ## DEFAULT FOR PYTHON ###

@@ -1,0 +1,39 @@
+### Git ###
+To list untracked files try:
+  git ls-files --others --exclude-standard
+Nice alias for adding untracked files:
+  au = !git add $(git ls-files -o --exclude-standard)
+
+You can unstage files from the index using
+  git reset HEAD -- path/to/file
+
+
+I did little research and it seems that the best option to exclude only files inside "sim_case" folder is to use:
+
+    **/sim_case/*
+    !**/sim_case/include
+
+That allows to have more complex file structure
+
+    test/sim_case/include
+    test1/sim_case/include
+    etc.
+
+The result from "git status" is:
+
+    On branch master
+
+    Initial commit
+
+    Changes to be committed:
+      (use "git rm --cached <file>..." to unstage)
+
+        new file:   .gitignore
+        new file:   test/file1
+        new file:   test/file2
+        new file:   test/sim_case/include/file1
+        new file:   test/sim_case/include/file2
+        new file:   test1/file1
+        new file:   test1/file2
+        new file:   test1/sim_case/include/file1
+        new file:   test1/sim_case/include/file2

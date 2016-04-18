@@ -93,3 +93,6 @@ with open('results.txt', "a") as results_file:
 
     print("\n >> Overall best from sphere seems to be {}".format(min(best_list_total)))
     print("\n >> Overall best from rastrigin seems to be {}".format(min(best_list_total_ra)))
+
+    results_file.write("\n >> Overall best from sphere seems to be {}".format(min(best_list_total)))
+    results_file.write("\n >> Overall best from rastrigin seems to be {}".format(min(best_list_total_ra)))

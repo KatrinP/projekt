@@ -1,0 +1,140 @@
+--Runspec section--------------------------------------------------------
+RUNSPEC
+
+TITLE                                  
+E100-Skarv
+
+WELLDIMS                               
+  5 108 5 5 /
+
+START                                  
+  1 JAN 2011 /
+
+VAPOIL                                 
+DISGAS                                 
+WATER                                  
+OIL                                    
+GAS                                    
+
+LOWSALT                                    
+
+METRIC                                 
+
+DIMENS                                 
+  37 37 25 /
+
+TABDIMS                                
+  2 1* 1* 29 1* 29 6* 1 /
+
+--CPR
+--/
+
+--Grid section--------------------------------------------------------
+GRID
+
+MINPV
+  10 /
+
+PINCH
+  /
+
+INIT
+
+NOECHO 
+
+INCLUDE
+'INCLUDE/GRID.GRDECL' /
+
+INCLUDE
+'INCLUDE/PORO.GRDECL' /
+
+INCLUDE
+'INCLUDE/PERM.GRDECL' /
+
+COPY
+  PERMX PERMY /
+  PERMX PERMZ /
+/
+
+MULTIPLY
+  PERMZ 0.1 /  
+  /                             
+
+--Edit section-----------------------------------------------------
+EDIT
+
+--Properties section-----------------------------------------------
+PROPS
+
+NOECHO 
+
+INCLUDE
+'INCLUDE/PVT.INC' /
+
+INCLUDE
+'INCLUDE/ROCK.INC' /
+
+--regions section-------------------------------------------------------
+
+REGIONS
+NOECHO 
+SATNUM
+-- immiscible, high salinity = 1
+ 34225*1 /
+
+LWSLTNUM
+-- low salinity curves
+ 34225*2
+/
+
+RPTREGS
+ 24*0 /
+
+ROCKNUM                             
+  34225*1 /
+
+PVTNUM                                
+  34225*1 /
+
+EQLNUM                               
+  34225*1 /                                  
+
+--Solution section------------------------------------------------------
+
+SOLUTION
+
+EQUIL                                  
+   3584  370.66   3710   0   3584   0 0 0 0 /
+
+RPTRST                                 -- Generated : Petrel
+  BASIC=3 FLOWS /
+
+RPTSOL                                 -- Generated : Petrel
+  RESTART=2 FIP /
+
+
+SALTVD
+ 3000.0  30.0
+ 4000.0  30.0 /
+
+--Summary section-------------------------------------------------------
+SUMMARY
+
+INCLUDE
+'INCLUDE/SUMMARY.INC' /
+
+RUNSUM
+SEPARATE
+
+--Schedule section------------------------------------------------------
+
+SCHEDULE
+
+INCLUDE
+'INCLUDE/SCHEDULE.INC' /
+
+TSTEP
+12*30 /
+--------------------------------------------------------------------------
+
+END
