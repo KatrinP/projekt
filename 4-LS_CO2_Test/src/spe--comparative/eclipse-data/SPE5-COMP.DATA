@@ -1,0 +1,1247 @@
+------------------------------------------------------------------------
+-->SPE (third)fifth? comprative problem
+--6 components
+--peng robinson  EoS with correction
+--Grid dimentions 7*7*3
+--AIM solution method
+--FIELD units
+--3 stage separator
+--GRUPSALE and gas reinjection of remaining gas
+--------------------------------------------------------------------------
+----------------RUNSPEC ection--------------------------------------------
+RUNSPEC
+--unit
+FIELD
+--presence of water
+WATER
+--solution method
+AIM
+--number of components in study
+COMPS
+ 6 /
+--equastion of state
+EOS
+PR /
+--dimention of blocks
+DIMENS
+7 7 3  /
+--TABDIMS
+--1 1 40 40 /
+ISGAS
+MULTSAVE
+0 /
+NOSIM
+
+UNIFOUT
+UNIFIN
+
+GRID
+--basic grid block sizes
+INIT
+EQUALS
+'DX' 500 /
+'DY' 500 /
+'PORO' 0.3 /
+
+'DZ' 20     1 7 1 7 1 1 /
+'PERMX' 500 /
+'PERMZ' 50 /
+'TOPS' 8335 /
+
+'DZ' 30 1 7 1 7 2 2 /
+'PERMX' 50 /
+'PERMZ' 50 /
+
+'DZ' 50 1 7 1 7 3 3 /
+'PERMX' 200 /
+'PERMZ' 25 /
+/
+COPY 
+  'PERMX' 'PERMY' 1 7 1 7 1 3 /
+/
+RPTGRID 
+1 1 1 1 1 1 0 0 1 1 0 1 1 0 1 1 1 /
+
+PROPS
+--table of rock and fluid properties
+NCOMPS
+ 6 /
+
+EOS
+PR /
+--ping-robinson correction
+PRCORR
+--standard temperature and pressure in deg F and PSIA
+STCOND
+60.0 14.7 /
+CNAMES
+--component name
+C1 C3 C6 C10 C15 C20 /
+--critical tem. deg R
+TCRIT
+343.0 665.7 913.4 1111.8 1270.0 1380 /
+--critical pressure psia
+PCRIT
+667.8 616.3 436.9 304.0 200.0 162.0 /
+--critical Z factor
+ZCRIT
+0.290 0.277 0.264 0.257 0.245 0.235 /
+--Acentric factor
+ACF
+.0130 0.1524 0.3007 0.4885 0.6500 0.8500 /
+--molecular weight
+MW
+16.040 44.100 86.180 142.290 206.000 282.000 /
+--omega_A
+OMEGAA
+6*0.4572355 /
+--omegaB
+OMEGAB
+6*0.077769 /
+--defult fluid sample composition 
+ZMFVD
+1.0000 0.50000 0.03000 0.07000 0.20000 0.15000 0.05000
+10000. 0.50000 0.03000 0.07000 0.20000 0.15000 0.05000 /
+--  Boiling point temprature Deg R
+TBOIL
+201.06000  415.98000 523.332222 689.67140 958.31604 1270.40061 /
+--refrence tempratures Deg R
+TREF
+26.53189 36.33308 37.87047 45.60035 50.88507 55.89861 /
+--parachors (dynes/cm)
+PARACHOR
+77.00000 150.30000 213.52089 331.78241 516.45301 853.48890 /
+--Binary interaction coefficients
+BIC
+0.0000 
+0.0000  0.00000             
+0.0000  0.00000 0.00000
+0.05000 0.00500 0.00000 0.0000
+0.05000 0.00500 0.00000 0.0000 0.0000 /
+--reservoir temprature Deg F
+RTEMP
+160.0 /
+-- 250 /
+
+--water saturation function
+SWFN
+--water saturation      Krw           oli-water capillary pressure
+0.2000 0.0000 45.0000
+0.2899 0.0022 19.0300
+0.3778 0.0180 10.0700
+0.4667 0.0607 04.9000
+0.5556 0.1438 01.8000
+0.6444 0.2809 00.5000
+0.7000 0.4089 00.0500
+0.7333 0.4855 00.0100
+0.8222 0.7709 00.0000
+0.9111 1.0000 00.0000
+1.0000 1.0000 00.0000 /
+SGFN
+---Gas  saturation   Gas relative perm.      Oil-gas Capillary Press.
+0.0000 0.0000 30.000
+0.0500 0.0000 8.0000
+0.0889 0.0010 4.0000
+0.1778 0.0100 3.0000
+0.2667 0.0300 0.8000
+0.3556 0.0500 0.0300
+0.4444 0.1000 0.0010
+0.5333 0.2000 0.0010
+0.6222 0.3500 0.0000
+0.6500 0.3900 0.0000
+0.7111 0.5600 0.0000
+0.8000 1.0000 0.0000 /
+--OIL SATURATION function
+SOF3
+0.0000 0.0000 0.0
+0.0500 0.0000 0.0
+0.0889 0.0000 0.0
+0.1778 0.0000 0.0110
+0.2667 0.0000 0.0370
+0.3000 0.0000 0.0500
+0.3556 0.0123 0.0878
+0.4444 0.0835 0.1715
+0.5333 0.2178 0.2963
+0.6222 0.4153 0.4705
+0.7101 0.6769 0.7023
+0.8000 1.0000 1.0000 /
+
+--Rock and water presure data
+ROCK
+--P@refdepth   Cr
+4000.0 5.0E-6 /
+PVTW
+--water PVT function
+--Pref   Bw@Pref    Cw  Miowate@ref   water viscosibility
+4000.0 1.0 3.3E-6 0.70 0.0 /
+--surface density of water 
+DENSITY
+38.53  63.0 0.06864  /
+--Solution section----------------------------------------------------
+SOLUTION
+--Equlibration data-inintial pressure 4000 psi at 8400.which is 
+-- the oil-water and oil-gas contact depth
+EQUIL
+--datum depth    P@d.d     Depth WOC  Pc(woc)   Depth(GOC)  Pc(GOC) Ninteger
+--8400 4000 9900 0 1000 0 1 0 0 /
+8400 3000 8410 0 1000 0 1 0 0 /
+OUTSOL
+PRESSURE SOIL VOIL / 
+RPTSOL
+PRESSURE SOIL PCO PCG PSAT /
+FIELDSEP SEP
+1  80 815 /
+2  80  65 /
+3  60 14.7 /
+/
+--SUMMARY section--------------------------------------------------------
+SUMMARY
+ALL
+FWIR
+FOPR
+FOPT
+FWPT
+FGOR
+FPR
+FOE
+FWPR
+FWIT
+FGPR
+FVIR
+WXMF
+P 1 /
+/
+WXMF
+P 2 /
+/
+WXMF
+P 3 /
+/
+WXMF
+P 4 /
+/
+--producer block data
+BVOIL 
+7 7 3 /
+4 4 1 /
+/
+BSOIL
+7 7 3 /
+4 4 1 /
+/
+BSWAT
+7 7 3 /
+4 4 1 /
+/
+BSGAS
+7 7 3 /
+4 4 1 /
+/
+BPRES
+1 1 1 /
+/
+BXMF
+1 1 1 6 /
+/
+BYMF
+1 1 1 6 /
+/
+
+RUNSUM
+--SEPARATE
+
+--EXCEL
+
+--Schedule section ----------------------------------------------------
+SCHEDULE
+RPTSCHED
+ PRES SOIL SWAT SGAS RESTART PSAT  /
+--1 1 1 1 1 1 1 0 0 0 
+--2 2 0 0 0  /
+--define separator;third stage represents stock tank
+SEPCOND
+SEP FIELD 1 80 815 /
+SEP FIELD 2 80  65 /
+SEP FIELD 3 60 14.7 /
+/
+--Define injection and production wells
+WELSPECS
+ 'PRODUCER' 'FIELD' 7 7 8400 'OIL'  /
+ 'INJ-G   ' 'FIELD' 1 1 8335 'GAS' /
+ 'INJ-W   ' 'FIELD' 1 1 8335 'WAT' /
+/
+--WSEPCOND
+---P SEP /
+--/
+COMPDAT
+ 'PRODUCER' 7 7 3 3 'OPEN' 0 -1 0.25 10000 /
+ 'INJ-G   ' 1 1 1 1 'OPEN' 0 -1 0.25 10000 /
+ 'INJ-W   ' 1 1 1 1 'OPEN' 0 -1 0.25 10000 /
+/
+WCONPROD
+  'PRODUCER' 'OPEN'  'ORAT' 12000 4*  3000  /
+/
+--Well operation target and limit
+--WELTARG
+--'PRODUCER' BHP 500 /
+--/ 
+WCONINJE
+ 'INJ-W' 'WAT' 'OPEN' 'RATE' 45000 1* 4500 1* 1* /
+ 'INJ-G' 'GAS' 'OPEN' 'RATE' 20000 1* 4500 1* 1* /
+/
+--sales gas rat of 1500 MSCF/DAY specified
+---GRUPSALE
+---fIELD 1500 /
+---/
+--GCONINJE
+--'FIELD'  GAS NONE  2* 1 /
+--/
+GINJGAS
+'FIELD'   GV  'FIELD' /
+/
+WELLSTRE
+'MIXA' 0.77 0.20 0.03 /
+/
+
+WINJGAS  
+'INJ-G' STREAM  'MIXA' /
+/
+WINJMIX
+'MIXA'  1  0.77 GAS 'MIXA'/
+'MIXA'  2  0.20 GAS 'MIXA'/
+'MIXA'  3  0.03 GAS 'MIXA'/
+/
+--first 3 months---------------------------------------------- 
+TUNING 
+1.00 365.00 0.1 0.15 20 /
+120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+/
+WELOPEN
+ 'INJ-G'  'SHUT' /
+ 'INJ-W'  'OPEN' /
+/
+TSTEP 
+91.25 
+/
+SAVE
+--second 3 months--------------------------------------------------
+TUNING 
+1.00 365.00 0.1 0.15 20 /
+120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+12 1 40  1 1* 1* /
+
+WELOPEN
+ 'INJ-W' 'SHUT' /
+ 'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--Third 3 months------------------------------------------------------
+--TUNING 
+--1.00 365.00 0.1 0.15 20 /
+--120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+ 'INJ-G' 'SHUT' /
+ 'INJ-W' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--FORTH 3 MONTHES-----------------------------------------------------
+--TUNING
+--20.0 /
+--5.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'SHUT'   /
+'INJ-G' 'OPEN'   /
+/
+TSTEP
+91.25 
+/
+--YEAR 2 SCHEDULE------------------------------------------------------
+--TUNING 
+--1.00 365.00 0.1 0.15 20 /
+--120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-G' 'SHUT' /
+'INJ-W' 'OPEN' /
+/
+TSTEP
+91.25  
+/
+--TUNING
+--45.0 46.0 44.0 /
+--120.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--5.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-G' 'SHUT' /
+'INJ-W' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--5.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 3 SCHEDULE------------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 4 SCHEDULE------------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 5 SCHEDULE------------------------------------------------------    
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 6 SCHEDULE------------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 7 SCHEDULE------------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 8 SCHEDULE------------------------------------------------------ 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 9 SCHEDULE------------------------------------------------------ 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 10 SCHEDULE------------------------------------------------------ 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 11 SCHEDULE------------------------------------------------------ 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 12 SCHEDULE------------------------------------------------------ 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 13 SCHEDULE-----------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 14 SCHEDULE-----------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 15 SCHEDULE-----------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 16 SCHEDULE-----------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 17 SCHEDULE----------------------------------------------------- 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 18 SCHEDULE----------------------------------------------------- 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 19 SCHEDULE-----------------------------------------------------
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+-/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--YEAR 20 SCHADULE------------------------------------------------------- 
+--TUNING 
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--1.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+WELOPEN
+'INJ-W' 'OPEN' /
+'INJ-G' 'SHUT' /
+/
+TSTEP
+91.25 
+/
+--TUNING
+--45.0 46.0 44.0 /
+--10.0 0.01 1.0E-6 2* 0.1 1.0E-05 /
+--/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25 
+/
+END
+-----------------------------------------------------------
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

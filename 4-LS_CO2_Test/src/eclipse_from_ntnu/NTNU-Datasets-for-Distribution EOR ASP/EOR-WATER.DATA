@@ -1,0 +1,383 @@
+-- Filename: EOR-WATER.DATA  Sunday, August 23, 2009
+-- Polymer injection model with pure water injection
+--------------------------------------------------------------------------------
+
+RUNSPEC      ==============================================================
+TITLE
+   POLYMER FLOODING FOR EOR COURSE
+
+DIMENS
+-- nx   ny    nz
+   30   30    4  /
+
+OIL
+
+WATER
+
+POLYMER
+
+FIELD
+
+TABDIMS
+-- num num  max  max      max     max
+-- sat pvt  sat  press    fip     Rs
+-- tab tab nodes nodes   regions nodes
+    1    1   50    20       2   20 /
+
+REGDIMS
+-- max  sets max  max
+-- fip  fip  res  flux
+-- reg  reg  reg  reg
+    2    1    0    0 /
+
+WELLDIMS
+-- max    max max    max
+-- wells conn groups wells/gr
+    5     5    1      5 /
+
+START
+   1  JAN  2010  /
+
+NSTACK
+    50 /
+    
+UNIFOUT
+UNIFIN
+
+
+GRID      ==============================================================
+
+INIT
+
+INCLUDE
+  '3D.FILLED' /
+
+NOECHO
+
+INCLUDE
+    'PERM_NEW.DAT' /
+
+
+INCLUDE
+   'PORO3.DAT' /
+
+--MULTIPLY
+-- Reduce permeability by factor of 10
+-- Range from 5 to 200 mD, Porosity 15 to 30%
+-- prop   multi i1 i2 j1 j2 k1 k2
+--  PERMX   0.1   1  30  1 30  1  4    /
+--/
+
+
+COPY
+   PERMX   PERMY  /
+   PERMX   PERMZ  /
+/
+
+MULTIPLY
+-- change Kv/Kh
+-- prop   multi i1 i2 j1 j2 k1 k2
+  PERMZ   0.1   1  30  1 30  1  4    /
+/
+
+RPTGRID
+   PORO  PERMX  /
+
+PROPS     ==============================================================
+
+SWFN
+-- Swat   Krw    Pcow  WATER WET
+  0.25  0.0       8.
+  0.35  0.1       2.
+  0.45  0.35      0.5
+  0.55  0.6       0.
+/
+
+
+SOF2
+--  Soil  Kro  WATER WET
+  0.45    0.0
+  0.55    0.1
+  0.65    0.4
+  0.75    1.0
+/
+
+-- basic water viscosity is 0.34 cP
+PVTW
+    0.0  1.0  3.03E-06  0.34  0.0 /
+
+-- oil viscosity is 2.0 cP
+PVDO
+          0.0   1.0     2.0
+       8000.0   0.92    2.0 /
+
+ROCK
+    4000.0    .30E-05 /
+
+DENSITY
+    52.0000  64.0000   .04400 /
+
+--------------------------------------------------------------
+------------------------------------------------------------
+-- POLYMER KEYWORDS
+
+-- Polymer Viscosity
+PLYVISC
+-- lb/stb    water viscosity
+--           multiplier
+     0.0     1.0
+    10.5    10.0 /
+
+-- Polymer-Rock Properties
+PLYROCK
+-- dead  residual   mass    adsorption maximum  
+-- pore  resistance density  index     polymer
+-- space  factor                       adsorption
+   0.16    1.5      770.0     1        0.0004 /
+
+-- Polymer Adsorption
+PLYADS
+--polymer        polymer  
+--concentration  concentration 
+-- lb/stb        adsorbed by rock
+--               lb/lb
+    0.0           0.00
+    5.0          0.00010
+   10.5          0.00040  /
+
+TLMIXPAR
+ 1.0 /
+
+-- Polymer-Salt Concentrations for mixing - maximum polymer and salt concentrations
+PLYMAX
+--polymer         salt 
+--concentration   concentration
+-- lb/stb          lb/stb
+   10.5             0.0 /
+
+
+------------------------------------------------------------
+
+
+RPTPROPS
+ SWFN SOF2  /
+
+
+REGIONS    ========================================================
+
+FIPNUM
+   3600*1 /
+
+RPTREGS
+  20*0 1 /
+
+SOLUTION   =============================================================
+
+-- post water flood initial pressure and water saturation
+-- start with residual oil saturation
+
+PRESSURE
+ 3600*4040.0 /
+
+-- initial water sat = 0.55
+SWAT
+ 3600*0.25 /  
+ 
+RPTSOL
+  RESTART=1  FIP=3  /       
+
+RPTRST
+'BASIC=2' 'VELOCITY' 'RK' 'VISC' /
+
+SUMMARY    =============================================================
+
+-- polymer injection total
+-- and FOPT for economics calculation
+FOPT
+-- Polymer injection total
+FCIT
+
+-- Polymer injection rate
+FCIR
+-- Polymer Production rate
+FCPR
+-- Polmer production total
+FCPT
+
+-- Salt Production rate
+FSPR
+-- Salt Production total
+FSPT
+-- Salt Injection rate
+FSIR
+-- Salt injection total
+FSIT
+
+TCPU
+
+TIMESTEP
+
+DATE
+
+-- Oil recovery
+FOE
+
+FPR
+
+FWCT
+FCPR
+FCPT
+FCIR
+FCIT
+FCIP
+FCAD
+GCPR
+  G  /
+GCPT
+  G  /
+GCIR
+  G  /
+GCIT
+  G  /
+WCPR
+  P  /
+WCPT
+  P  /
+WCIR
+  I  /
+WCIT
+  I  /
+CCFR
+  P  10 1  1 /
+ /
+CCPT
+  P  10 1  1 /
+ /
+CCIT
+  I   1  1  1 /
+ /
+RCIP
+ 1 2 /
+RCFT
+ 1 2 /
+ /
+RCAD
+ 1 2 /
+BCCN
+ 1 1 1 /
+ /
+BCIP
+ 1 1 1 /
+ /
+BCAD
+ 1 1 1 /
+ /
+FOPR
+FSPR
+FSPT
+FSIR
+FSIT
+FSIP
+WBHP
+/
+WOPR
+/
+-- Salt concentration
+BSCN
+ 1 1 1 /
+ /
+-- Salt in place 
+BSIP
+ 1 1 1 /
+ /
+BOSAT
+ 1 1 1 /
+ 5 1 1 /
+ 9 1 1 /
+/
+-- Water oil cap pressure
+BWPC
+1 1 1 /
+ 5 1 1 /
+ 9 1 1 /
+ /
+ 
+
+RPTSMRY
+ 1 /
+
+--RPTONLY
+ALL
+SEPARATE
+RUNSUM
+
+SCHEDULE   =============================================================
+
+RPTSCHED
+ 'FIP=1' 'WELLS'  'SUMMARY=2'  /
+
+TUNING 
+  .01   10.  .0001 .0001  /
+  /
+ 20 1*  50    /
+
+WELSPECS
+-- WELL SPECIFICATION DATA
+--
+-- WELL   GROUP LOCATION  BHP    PI
+-- NAME   NAME    I  J    DEPTH  DEFN
+    I      G      1  1   4000    WAT   0.0   STD    SHUT    NO   /
+    P      G     30 30   4000    OIL   0.0   STD    SHUT    NO   /
+/
+
+COMPDAT
+-- COMPLETION SPECIFICATION DATA
+--
+-- WELL   -LOCATION-  OPEN/ SAT CONN WELL EFF   SKIN
+-- NAME   I    J    K1 K2  SHUT  TAB FACT  ID    KH
+    I     1*   1*   1  4   OPEN    0  .0   1.0   /
+    P     1*   1*   1  4   OPEN    0  .0   1.0   /
+/
+
+-- PRODUCTION WELL CONTROLS
+WCONPROD
+--
+--  WELL    OPEN/  CNTL   OIL  WATER  GAS  LIQ  RESV  BHP
+--  NAME    SHUT   MODE   RATE  RATE  RATE RATE RATE
+     P      OPEN   BHP           5*                   3999.0 /
+/
+
+WCONINJE
+-- WELL PHASE  OPEN/  CNTL  SURF    RB/D  BHP
+-- NAME        SHUT   MODE  RATE  
+    I    WAT   OPEN   RATE  200.0   1* 100000 /
+/
+
+
+WPOLYMER
+-- Polymer-Salt concentrations for injection wells
+--Name   Concentration
+--       Polymer  Salt 
+--      lb/stb   lb/stb
+ 'I'     0.0       0.0    /
+ 
+ /
+
+-- inject water for 360 days
+
+TSTEP
+12*30 /
+
+WPOLYMER
+--Name   Concentration
+--       Polymer  Salt 
+--      lb/stb   lb/stb
+ 'I'     0.0       0.0    /
+ /
+
+-- inject water for 1640 days
+
+TSTEP
+ 16*100  40 /
+
+END

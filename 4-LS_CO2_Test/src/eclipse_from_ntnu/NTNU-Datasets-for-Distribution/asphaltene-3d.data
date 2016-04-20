@@ -1,0 +1,931 @@
+-- asphaltene-3d-2011.data
+------------------------------------------------------------------------
+-->This model tests the E300 Asphaltene Feature
+-- All asphaltene options enabled
+-- EoS mode in E300
+-- Grid dimensions 30 x 30 x 4
+-- FIELD units
+------------------------------------------------------------------------
+
+RUNSPEC   ==============================================================
+
+TITLE
+  Asphaltene test model  /
+
+START
+  1 JAN 2010  /
+
+FIELD
+
+GAS
+OIL
+WATER
+
+DIMENS
+-- nx   ny    nz
+   30   30    4  /
+
+COMPS
+7 /
+
+EQLDIMS
+1 200 /
+
+TABDIMS
+1 1 2* 2     /
+
+FULLIMP
+
+UNIFIN
+UNIFOUT
+
+NSTACK
+ 100   /
+
+NOECHO
+
+-- Switch on Asphaltene deposition model
+ASPHALTE
+-- character     Perm damage Viscosity model
+-- criterion
+    WEIGHT          PORO         EI    /
+
+--    WEIGHT            NO         NO    /
+
+
+GRID      ==========================================================
+
+GRIDFILE
+ 2 /
+
+INIT
+
+DXV
+ 30*70  /
+
+
+DYV
+ 30*70  /
+
+EQUALS
+ TOPS  4000.  1   30   1  30    1  1 /
+ DZ      25.  1   30   1  30    1  4 /
+
+/
+
+NOECHO
+
+INCLUDE
+   permx3.dat
+/
+INCLUDE
+   poro3.dat
+/
+
+
+COPY
+   PERMX   PERMY  /
+   PERMX   PERMZ  /
+/
+
+MULTIPLY
+-- change Kv/Kh
+-- prop   multi i1 i2 j1 j2 k1 k2
+  PERMZ   0.1   1  30  1 30  1  4    /
+/
+
+-- Increase PV to provide pressure buffer and keep pres > psat
+
+BOX 
+1 30 1 30 1 4  / 
+
+MULTPV
+3600*10  /
+
+ENDBOX
+
+
+--Properties section-----------------------------------------------
+
+PROPS
+
+--Water saturation functions
+-- Water Wet
+SWFN
+--swat krw  pcow water wet
+  0.18  0      3
+  0.20  0.002  1
+  0.30  0.004  1*
+  0.44  0.083  0.5
+  0.55  0.157  1*
+  0.60  0.2    1*
+  0.68  0.303  0.1
+  0.8   0.540  0.05
+  1.00  1.000  0.0 /
+
+--Gas saturation functions
+-- Water Wet
+SGFN
+--sgas  krg    pcog water wet
+  0.00  0.000  0.0
+  0.04  0.005  0.0
+  0.12  0.026  0.0
+  0.24  0.078  0.0
+  0.36  0.156  0.0
+  0.48  0.260  0.0
+  0.60  0.400  0.0
+  0.72  0.562  0.0
+  0.82  1.000  0.0
+/
+
+--Oil saturation functions
+-- Water Wet
+--soil   krow   krog water wet
+SOF3
+  0.0   0.000  0.000
+  0.24  0.000  0.000
+  0.28  0.005  0.005
+  0.32  0.012  0.012
+  0.44  0.089  0.060
+  0.56  0.205  0.150
+  0.72  0.425  0.400
+  0.82  1.000  1.000 /
+
+
+--Asphaltene:  specify oil-wet KROW table
+ASPKROW
+--  swat    krw     krow  oil wet
+     0.14    0.0    1.0
+     0.18    0.004  0.7
+     0.2     0.010  0.5
+     0.3     0.067  0.15
+     0.44    0.16   0.06
+     0.55    0.258  0.02
+     0.6     0.312  0.012
+     0.68    0.4    0.002
+     0.8     0.6    0.0
+     1.0     1.0    0.0
+  /
+
+--Asphaltene: F factor vs. deposition
+ASPWETF
+--ASPDOT    F
+0.0       0.0
+0.0001    0.1
+0.0005    0.5
+0.0008    0.8 /
+
+--Rock properties
+
+ROCK
+-- pres    cw
+   3550  3.5E-6 /
+
+
+-- Water properties
+
+PVTW
+-- pres    bw    cw     vw
+   3500  1.03  3.0E-6  0.23 /
+
+
+-- Standard conditions
+
+STCOND
+--Temp   Pressure
+  60     14.7 /
+
+-- Reservoir temperature (deg F)
+
+RTEMP
+ 160 /
+
+
+-- Equation of State
+
+EOS
+   PR  /
+
+-- Modified Peng-Robinson EoS
+
+PRCORR
+
+-- Component names
+
+CNAMES
+            C1       C3       C6        C10      C15       C20     ASPH   /
+
+-- Reservoir EoS properties
+
+-- ... molecular weights
+
+MW
+         16.04    44.10    86.18    149.29    206.00    282.00    282.0   /
+
+-- ... critical temperatures (R)
+
+TCRIT
+        343.00   665.70   913.40   1111.80   1270.00   1380.00  1380.00   /
+
+-- ... critical pressures (psia)
+
+PCRIT
+        667.80   616.30   436.90    304.00    200.00    162.00   162.00   /
+
+-- ... critical Z-factors
+
+ZCRIT
+         0.290    0.277    0.264     0.257     0.245     0.235    0.235   /
+
+--  ... accentric factors
+
+ACF
+         0.013    0.153    0.301     0.489     0.650     0.850    0.850   /
+
+-- ... binary interaction coefficients
+
+BIC
+            0
+            0       0
+            0       0        0
+         0.05   0.005        0         0
+         0.05   0.005        0         0         0
+         0.05   0.005        0         0         0         0            /
+
+-- Specify initial liquid composition
+
+ZMFVD
+--          1       2        3          4       5        6       7
+-- P       C1      C3       C6        C10     C15       C20     ASPH
+ 1000.0   0.50    0.03     0.07      0.20     0.15     0.05     0.00
+10000.0   0.50    0.03     0.07      0.20     0.15     0.05     0.00   /
+
+
+-- Asphaltene parameters
+-- Asphaltene floc components
+--Asphaltene: component 6 represents asphaltene
+--Asphaltene: component 7 represents flocs
+ASPFLOC
+-- first  last  floc
+     6      6     7  /
+
+-- ... define asphaltene concentration limits
+-- (set here to avoid asphaltene precipitation)
+ASPREWG
+--  pres   %_wt
+  1000.0    0.0
+  2000.0    5.0
+  3900.0   15.0
+ 10000.0  100.0  /
+
+-- ... ashphaltene floc rates
+-- (set here to cause faster floc degradation than formation)
+ASPFLRT
+-- Component 6
+    0.0100
+    0.001  /
+
+-- ... asphaltene deposition
+ASPDEPO
+-- adsorp   plug  entrain   Vcr
+   5.0E-4  1.0E-6  1.0E-4   2500  /
+
+--Asphaltene:  asphaltene damage model, delta
+ASPKDAM
+3 /
+
+--Asphaltene: asphaltene viscosity change model coefficient (a)
+ASPVISO
+-- slope
+    2.5 /
+
+
+SOLUTION   ============================================================
+
+EQUIL
+-- zdat  pdat  owc  pcow   goc  pcog  dummy  dummy  Ninit
+   4000  4000 6000     0     0     0     1       1    1*   /
+
+RPTRST
+  PRESSURE SOIL SGAS SWAT XMF YMF ASPADS ASPDOT ASPEN ASPFL ASPKDM ASPLU ASPREW ASPVOM  /
+
+
+SUMMARY   ============================================================
+
+FGOR
+FWCT
+FOPR
+FOPT
+FWIR
+FWIT
+FVPR
+FVIR
+FPR
+FOSAT
+FGSAT
+
+-- Asphaltene field parameters
+
+-- Asphaltene adsorption volume fraction
+--ASPADS
+
+-- Asphaltene net deposition volume fraction
+--ASPDOT
+
+-- Asphaltene entrainment volume fraction
+--ASPENT
+
+-- Asphaltene flocculation-dissociation rates
+--ASPFL
+
+-- Asphaltene permeability damage multiplier
+--ASPKDM
+
+-- Asphaltene plugging volume fraction
+--ASPLUG
+
+-- Asphaltene precipitation fraction
+--ASPREW
+
+-- Asphaltene precipitation fraction including flocs
+--ASPRET
+
+-- Asphaltene oil viscosity multiplier
+--ASPVOM
+
+-- Asphaltene precipitate fraction limit
+--ASPLIM
+
+-- Asphaltene fraction precipitated and dissolved
+--ASPFRD
+--------------------
+
+WBHP
+  PROD  WINJ  /
+
+-- Asphaltene grid block parameters
+
+BASPDOT
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BASPREW
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BASPKDM
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BASPVOM
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BAREAC
+  1  15  1 1 /
+  2  15  1 1 /
+  3  15  1 1 /
+  4  15  1 1 /
+  5  15  1 1 /
+  6  15  1 1 /
+  7  15  1 1 /
+  8  15  1 1 /
+  9  15  1 1 /
+ 10  15  1 1 /
+ 11  15  1 1 /
+ 12  15  1 1 /
+ 13  15  1 1 /
+ 14  15  1 1 /
+ 15  15  1 1 /
+ 16  15  1 1 /
+ 17  15  1 1 /
+ 18  15  1 1 /
+ 19  15  1 1 /
+ 20  15  1 1 /
+ 21  15  1 1 /
+ 22  15  1 1 /
+ 23  15  1 1 /
+ 24  15  1 1 /
+ 25  15  1 1 /
+ 26  15  1 1 /
+ 27  15  1 1 /
+ 28  15  1 1 /
+ 29  15  1 1 /
+ 30  15  1 1 /
+
+  1  15  1 2 /
+  2  15  1 2 /
+  3  15  1 2 /
+  4  15  1 2 /
+  5  15  1 2 /
+  6  15  1 2 /
+  7  15  1 2 /
+  8  15  1 2 /
+  9  15  1 2 /
+ 10  15  1 2 /
+ 11  15  1 2 /
+ 12  15  1 2 /
+ 13  15  1 2 /
+ 14  15  1 2 /
+ 15  15  1 2 /
+ 16  15  1 2 /
+ 17  15  1 2 /
+ 18  15  1 2 /
+ 19  15  1 2 /
+ 20  15  1 2 /
+ 21  15  1 2 /
+ 22  15  1 2 /
+ 23  15  1 2 /
+ 24  15  1 2 /
+ 25  15  1 2 /
+ 26  15  1 2 /
+ 27  15  1 2 /
+ 28  15  1 2 /
+ 29  15  1 2 /
+ 30  15  1 2 / 
+/
+
+
+-- Other block parameters
+
+BXMF
+  1  15  1 6 /
+  2  15  1 6 /
+  3  15  1 6 /
+  4  15  1 6 /
+  5  15  1 6 /
+  6  15  1 6 /
+  7  15  1 6 /
+  8  15  1 6 /
+  9  15  1 6 /
+ 10  15  1 6 /
+ 11  15  1 6 /
+ 12  15  1 6 /
+ 13  15  1 6 /
+ 14  15  1 6 /
+ 15  15  1 6 /
+ 16  15  1 6 /
+ 17  15  1 6 /
+ 18  15  1 6 /
+ 19  15  1 6 /
+ 20  15  1 6 /
+ 21  15  1 6 /
+ 22  15  1 6 /
+ 23  15  1 6 /
+ 24  15  1 6 /
+ 25  15  1 6 /
+ 26  15  1 6 /
+ 27  15  1 6 /
+ 28  15  1 6 /
+ 29  15  1 6 /
+ 30  15  1 6 /
+ 
+  1  15  1 7 /
+  2  15  1 7 /
+  3  15  1 7 /
+  4  15  1 7 /
+  5  15  1 7 /
+  6  15  1 7 /
+  7  15  1 7 /
+  8  15  1 7 /
+  9  15  1 7 /
+ 10  15  1 7 /
+ 11  15  1 7 /
+ 12  15  1 7 /
+ 13  15  1 7 /
+ 14  15  1 7 /
+ 15  15  1 7 /
+ 16  15  1 7 /
+ 17  15  1 7 /
+ 18  15  1 7 /
+ 19  15  1 7 /
+ 20  15  1 7 /
+ 21  15  1 7 /
+ 22  15  1 7 /
+ 23  15  1 7 /
+ 24  15  1 7 /
+ 25  15  1 7 /
+ 26  15  1 7 /
+ 27  15  1 7 /
+ 28  15  1 7 /
+ 29  15  1 7 /
+ 30  15  1 7 / 
+/
+
+BPR
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BDENO
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BPORV
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+BOVIS
+  1  15  1  /
+  2  15  1  /
+  3  15  1  /
+  4  15  1  /
+  5  15  1  /
+  6  15  1  /
+  7  15  1  /
+  8  15  1  /
+  9  15  1  /
+ 10  15  1  /
+ 11  15  1  /
+ 12  15  1  /
+ 13  15  1  /
+ 14  15  1  /
+ 15  15  1  /
+ 16  15  1  /
+ 17  15  1  /
+ 18  15  1  /
+ 19  15  1  /
+ 20  15  1  /
+ 21  15  1  /
+ 22  15  1  /
+ 23  15  1  /
+ 24  15  1  /
+ 25  15  1  /
+ 26  15  1  /
+ 27  15  1  /
+ 28  15  1  /
+ 29  15  1  /
+ 30  15  1  /
+/
+
+--RPTONLY
+
+
+RUNSUM
+
+SCHEDULE   ============================================================
+
+RPTRST
+XMF ASPADS ASPDOT ASPFL ASPKDM ASPLUG ASPREW ASPRET ASPVOM ASPENT ASPLIM ASPFRD ASPFLO /
+RPTSCHED
+ASPADS ASPDOT ASPEN ASPFL ASPKDM ASPLUG ASPREW ASPRET ASPVOM ASPENT ASPLIM ASPFRD ASPFLO /
+
+
+
+TUNING
+  .1  10.  .001 .001  /
+  /
+ 20 1*  100    /
+
+
+
+--Define injection and production wells
+
+WELSPECS
+-- Well   Group  I0 J0  depth  phase
+   WINJ   FIELD   1  1    1*    WAT  /
+   PROD   FIELD  30 30    1*    OIL  /
+/
+
+COMPDAT   -LOCATION-       OPEN/ SAT CONN WELL EFF   SKIN
+-- Well   I   J    K1  K2  SHUT  TAB FACT  ID    KH
+   WINJ   1*  1*   1   4   OPEN    0  .0   1.0   /
+   PROD   1*  1*   1   4   OPEN    0  .0   1.0   /
+/
+
+WCONPROD
+-- Well  Status  Mode  Orat Wrat  Grat  Lrat   Resv   BHP
+   PROD   OPEN   RESV   1*   1*    1*    1*    5000   500  /
+/
+
+WCONINJE
+-- Well  Type  Status  Mode  Surf  Resv   BHP
+   WINJ   WAT   SHUT   RESV   1*  25000  4400  /
+/
+
+-- Increase PI to avoid premature switch to BHP control
+
+WPIMULT
+-- Well  Value
+   WINJ  100.0  /
+/
+
+-- Composition of injected fluid (native oil)
+
+WELLSTRE
+-- name     C1     C3     C6    C10    C15    C20   ASPH
+   IOIL   0.50   0.03   0.07   0.20   0.15   0.05   0.00   /
+/
+
+-- Link well to type of injected fluid
+
+WINJGAS
+-- Well  Type  Stream
+   WINJ  STRE   IOIL  /
+/
+
+
+-- Reporting frequency
+
+-- Simulate depletion and re-pressurisation periods
+
+-- 1000 days of depletion
+TSTEP
+  10*100  /
+
+-- Switch off producer and start injecting to re-pressurize
+
+WELOPEN
+-- Well  Status
+   WINJ   OPEN  /
+   PROD   SHUT  /
+/
+
+-- 200 days
+TSTEP
+   10*20  /
+
+-- Switch off injector and watch change in asphaltenes
+
+WELOPEN
+-- Well  Status
+   WINJ   SHUT  /
+/
+
+TSTEP
+  18*100  /
+
+TSTEP
+  0.01 /
+
+
+
+-- Write out restart record
+
+SAVE
+
+-- Reduce the pressure once more ....
+
+WELOPEN
+-- name  status
+   PROD   OPEN  /
+/
+
+NEXTSTEP
+  0.01  /
+
+TSTEP
+  10*100  /
+
+
+TSTEP
+  0.01 /
+
+
+
+-- Watch for deposition by plugging
+
+WELTARG
+-- name   mode  target
+   PROD   RESV   2500  /
+   WINJ   RESV   2550  /
+/
+
+WELOPEN
+-- name  status
+   PROD   OPEN  /
+   WINJ   OPEN  /
+/
+
+NEXTSTEP
+  0.01  /
+
+TSTEP
+  10*100  /
+
+
+TSTEP
+  0.01 /
+
+
+-- Increase rate to induce entrainment
+
+WELTARG
+-- name   mode  target
+   PROD   RESV   5000  /
+   WINJ   RESV   5100  /
+/
+
+NEXTSTEP
+  0.01  /
+
+TSTEP
+  10*100  /
+
+
+TSTEP
+  0.01 /
+
+END

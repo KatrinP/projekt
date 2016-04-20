@@ -1,0 +1,582 @@
+-- EOR-ALKALINE-ASP-NO-POLYMER.DATA
+-- Alkaline Model 1 in ASP floods - simplified model to take into account some effects of the
+-- alkaline on an ASP flooding performance.
+
+RUNSPEC      ==============================================================
+TITLE
+   ASP FLOODING
+
+DIMENS
+-- nx   ny    nz
+   30   30    4  /
+
+OIL
+
+WATER
+
+POLYMER
+SURFACT
+ALKALINE
+
+FIELD
+
+TABDIMS
+-- num num  max  max      max     max
+-- sat pvt  sat  press    fip     Rs
+-- tab tab nodes nodes   regions nodes
+    2    1   50    20       2   20 /
+
+REGDIMS
+-- max  sets max  max
+-- fip  fip  res  flux
+-- reg  reg  reg  reg
+    2    1    0    0 /
+
+WELLDIMS
+-- max    max max    max
+-- wells conn groups wells/gr
+    5     5    1      5 /
+
+START
+   1  JAN  2011  /
+
+NSTACK
+    50 /
+
+UNIFOUT
+UNIFIN
+
+
+GRID      ==============================================================
+
+INIT
+
+INCLUDE
+  '3D.FILLED' /
+
+NOECHO
+
+INCLUDE
+   permx3.dat
+/
+INCLUDE
+   poro3.dat
+/
+
+
+COPY
+   PERMX   PERMY  /
+   PERMX   PERMZ  /
+/
+
+MULTIPLY
+-- change Kv/Kh
+-- prop   multi i1 i2 j1 j2 k1 k2
+  PERMZ   0.1   1  30  1 30  1  4    /
+/
+
+RPTGRID
+   PORO  PERMX  /
+
+PROPS     ==============================================================
+
+SWFN
+--  swat   krw    pcow
+    0.25   0.0    4.0
+    0.35   0.15   1*
+    0.45   0.5    1*
+    0.55   1.0    0.0  /
+
+--  swat   krw    pcow
+    0.0    0.0    0.0
+    1.0    1.0    0.0 /
+
+SOF2
+--  soil      krow
+    0.4500   0.0000
+    0.55     0.1
+    0.65     0.4
+    0.7500   1.0000 /
+
+--  soil      krow
+    0.0      0.0
+    1.0      1.0 /
+
+-- basic water viscosity is 0.34 cP
+PVTW
+    0.0  1.0  3.03E-06  0.34  0.0 /
+
+-- oil viscosity is 2.0 cP
+PVDO
+          0.0   1.0     2.0
+       8000.0   0.92    2.0 /
+
+ROCK
+    4000.0    .30E-05 /
+
+DENSITY
+    52.0000  64.0000   .04400 /
+
+--------------------------------------------------------------
+--Alkaline keywords
+
+--Water/oil surface tension multipliers as a function of alkaline concentration
+ALSURFST
+-- Alkaline             Water/Oil Surface Tension
+-- concentration        multiplier
+--   lb/stb
+    0.0                  1.0
+    2.0                  0.7
+    5.0                  0.5
+    7.0                  0.3
+   10.5                  0.0   /
+
+--Polymer adsorption multipliers as a function of alkaline concentration
+ALPOLADS
+-- Alkaline             polymer adsorption
+-- concentration        multiplier
+--   lb/stb
+      0.0                1.0
+      1.0                0.7
+      2.0                0.5
+      3.0                0.3  /
+      0.0                1.0
+      1.0                0.7
+      2.0                0.5
+      3.0                0.3  /
+
+-- Alkaline multipliers for Surfactant Adsorption
+ALSURFAD
+-- alkaline             adsorption
+-- concentration        multiplier
+--   lb/stb
+      0.0                1.0
+      1.0                0.7
+      2.0                0.5
+      3.0                0.3  /
+      0.0                1.0
+      1.0                0.7
+      2.0                0.5
+      3.0                0.3  /
+
+-- Alkaline adsorption
+ALKADS
+-- Alkaline       Alkaline adsorbed on rock
+-- concentration  lb/lb
+-- lbs/stb
+    0.0           .00000
+    1.0           .00005
+    2.0           .00007
+    3.0           .00008
+    3.5           .00009 /
+    0.0           .00000
+    1.0           .00005
+    2.0           .00007
+    3.0           .00008
+    3.5           .00009 /
+
+
+-- No desorption
+ALKROCK
+  2 /
+  2 /
+
+------------------------------------------------------------
+-- POLYMER KEYWORDS
+
+-- Polymer Viscosity
+PLYVISC
+-- lb/stb    water viscosity
+--           multiplier
+     0.0     1.0
+    10.5    10.0 /
+
+-- Polymer-Rock Properties
+PLYROCK
+-- dead  residual   mass    adsorption maximum
+-- pore  resistance density  index     polymer
+-- space  factor                       adsorption
+   0.16    1.5      770.0     1        0.00040 /
+   0.16    1.5      770.0     1        0.00040 /
+
+-- Polymer Adsorption
+PLYADS
+--polymer        polymer
+--concentration  concentration
+-- lb/stb        adsorbed by rock
+--               lb/lb
+    0.0          0.00
+    5.0          0.00010
+   10.5          0.00040  /
+   /
+
+
+
+TLMIXPAR
+ 1.0 /
+
+-- Polymer-Salt Concentrations for mixing - maximum polymer and salt concentrations
+PLYMAX
+--polymer         salt
+--concentration   concentration
+-- lb/stb          lb/stb
+   10.5             0.0 /
+
+------------------------------------------------------------
+-- SURFACTANT KEYWORDS
+
+--Surfactant solution viscosity function
+SURFVISC
+--surfactant        water
+--concentration     viscosity
+-- lb/stb
+     0.0            0.34
+    10.5            5.0  /
+
+----Surfactant adsorption functions
+SURFADS
+----surfactant     concentration of
+----concentration  surfactant adsorbed by the rock
+---- lb/stb        lb/lb
+    0.0           0.000
+    1.0           0.005
+    10.5          0.010  /
+    0.0           0.000
+    1.0           0.005
+    10.5          0.010  /
+
+--    0.0           0.0000
+--    1.0           0.0005
+--    10.5          0.0010  /
+--    0.0           0.0000
+--    1.0           0.0005
+--    10.5          0.0010  /
+
+--Water/oil surface tension versus surfactant concentration
+SURFST
+--surfactant     water-oil
+--concentration  surface tension
+-- lb/stb        lb/in
+ 0.0             0.05
+ 1.0             1.0E-6
+ 10.5            1.0E-14  /
+
+--Surfactant capillary de-saturation functions
+SURFCAPD
+--log of the        miscibility
+--capillary number  function
+  -20                0.0
+  -10                0.5
+  -4                 1.0
+  10                 1.0 /
+  -20                0.0
+  -10                0.5
+  -4                 1.0
+  10                 1.0 /
+
+----Specifies the surfactant-rock properties - desorption, mass density rock
+-- no desorption
+SURFROCK
+----desorption      mass density
+----index           of this rock
+----                lb/rb
+     2               770 /
+     2               770 /
+--
+RPTPROPS
+ SWFN SOF2  /
+
+
+REGIONS    ========================================================
+
+FIPNUM
+   3600*1 /
+
+SATNUM
+   3600*1 /
+
+MISCNUM
+   3600*1 /
+
+SURFNUM
+  3600*2 /
+
+RPTREGS
+  20*0 1 /
+
+SOLUTION   =============================================================
+
+-- post water flood initial pressure and water saturation
+-- start with residual oil saturation
+
+PRESSURE
+ 3600*4040.0 /
+
+-- initial water sat = 0.55
+SWAT
+ 3600*0.55 /
+
+RPTSOL
+  RESTART=1  FIP=3  /
+
+SUMMARY    =============================================================
+
+TCPU
+
+TIMESTEP
+
+DATE
+
+-- Oil recovery
+FOE
+
+-- alkaline and surfactant and polymer injection total
+-- and FOPT for economics calculation
+FOPT
+FTITALK
+FTITSUR
+FCIT
+
+FOIP
+
+-- polymer surfactant alkaline producion rates
+FCPR
+FTPRALK
+FTPRSUR
+
+TCPU
+
+TIMESTEP
+
+DATE
+
+
+
+FPR
+
+FWCT
+FCPR
+FCPT
+FCIR
+FCIT
+FCIP
+FCAD
+GCPR
+  G  /
+GCPT
+  G  /
+GCIR
+  G  /
+GCIT
+  G  /
+WCPR
+  P  /
+WCPT
+  P  /
+WCIR
+  I  /
+WCIT
+  I  /
+CCFR
+  P  10 1  1 /
+ /
+CCPT
+  P  10 1  1 /
+ /
+CCIT
+  I   1  1  1 /
+ /
+RCIP
+ 1 2 /
+RCFT
+ 1 2 /
+ /
+RCAD
+ 1 2 /
+BCCN
+ 1 1 1 /
+ /
+BCIP
+ 1 1 1 /
+ /
+BCAD
+ 1 1 1 /
+ /
+FOPR
+FSPR
+FSPT
+FSIR
+FSIT
+FSIP
+WBHP
+/
+WOPR
+/
+BSCN
+ 1 1 1 /
+ /
+BSIP
+ 1 1 1 /
+ /
+BOSAT
+ 1 1 1 /
+ 5 1 1 /
+ 9 1 1 /
+/
+BWPC
+1 1 1 /
+ 5 1 1 /
+ 9 1 1 /
+ /
+WTPRSUR
+ OP  /
+
+BTADSUR
+ 5 1 1 /
+/
+FTPRSUR
+FTPTSUR
+FTIRSUR
+FTIRALK
+FCIR
+
+BTCNFSUR
+ 1 1 1 /
+ 2 1 1 /
+ /
+BTSTMALK
+ -- surface tension multiplier
+  1 1 1 /
+  5 1 1 /
+  10 1 1 /
+/
+BTCNFALK
+ -- block alkali concentration
+  1 1 1 /
+  5 1 1 /
+  10 1 1 /
+/
+RPTSMRY
+ 1 /
+
+--RPTONLY
+ALL
+SEPARATE
+RUNSUM
+
+SCHEDULE   =============================================================
+
+RPTSCHED
+ 'FIP=1' 'WELLS'  'SUMMARY=2'  /
+
+RPTRST
+  'BASIC=2'  /
+
+TUNING
+  .01   20.  .0001 .0001  /
+  /
+ 20 1*  50    /
+
+WELSPECS
+-- WELL SPECIFICATION DATA
+--
+-- WELL   GROUP LOCATION  BHP    PI
+-- NAME   NAME    I  J    DEPTH  DEFN
+    I      G      1  1   4000    WAT   0.0   STD    SHUT    NO   /
+    P      G     30 30   4000    OIL   0.0   STD    SHUT    NO   /
+/
+
+COMPDAT
+-- COMPLETION SPECIFICATION DATA
+--
+-- WELL   -LOCATION-  OPEN/ SAT CONN WELL EFF   SKIN
+-- NAME   I    J    K1 K2  SHUT  TAB FACT  ID    KH
+    I     1*   1*   1  4   OPEN    0  .0   1.0   /
+    P     1*   1*   1  4   OPEN    0  .0   1.0   /
+/
+
+-- PRODUCTION WELL CONTROLS
+WCONPROD
+--
+--  WELL    OPEN/  CNTL   OIL  WATER  GAS  LIQ  RESV  BHP
+--  NAME    SHUT   MODE   RATE  RATE  RATE RATE RATE
+     P      OPEN   BHP           5*                   3999.0 /
+/
+
+WCONINJE
+-- WELL PHASE  OPEN/  CNTL  SURFACE RB/D  BHP
+-- NAME        SHUT   MODE  RATE
+    I    WAT   OPEN   RATE  500.0   1*   16000 /
+/
+
+-- CONTINOUS INJECTION OF ASP
+-- inject alkai + polymer + surfactant
+
+--
+-- inject 1 wt % alkaline
+WALKALIN
+--well  alkaline injection
+--name  concentration lb/stb
+   I        3.5 /
+/
+
+-- inject 3 wt % surfactant
+WSURFACT
+--well  surfactant injection
+--name  concentration lb/stb
+   I        10.5 /
+/
+
+-- note 1 Kg/m3 = 0.3505 lb/stb
+
+
+-- inject 3 wt % polymer
+WPOLYMER
+--well  polymer injection     Salt
+--name  concentration lb/stb  concentrations
+    I       0.0               0.0 /
+ /
+
+-- with adsorption no desorption
+
+TSTEP
+ 0.01 /
+
+-- run for 1000 days
+TSTEP
+ 10*100 /
+
+-- CONTINOUS INJECTION OF WATER ONLY
+--
+--
+WALKALIN
+--well  alkaline injection
+--name  concentration lb/stb
+   I        0.0 /
+/
+
+
+WSURFACT
+--well  surfactant injection
+--name  concentration lb/stb
+   I        0.0 /
+/
+
+-- note 1 Kg/m3 = 0.3505 lb/stb
+
+
+
+WPOLYMER
+--well  polymer injection     Salt
+--name  concentration lb/stb  concentrations
+    I       0.0             0.0 /
+ /
+
+TSTEP
+ 0.01 /
+
+-- run for 1000 days
+TSTEP
+ 10*100 /
+
+END

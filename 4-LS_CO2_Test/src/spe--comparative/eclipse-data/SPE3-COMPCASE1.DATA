@@ -1,0 +1,365 @@
+------------------------------------------------------------------------
+--THIS IS A RUN DEMONSTATING THE GAS CONDENSATE AND SOLUTION     --
+--OPTIONS IN ECLIPSE. THE RUN IS THREE PHASE AND THREE           --
+--DIMENSIONAL, STARTING WITH GAS ABOVE THE DEW POINT.            --
+--A SINGLE GAS PRODUCER LOWERS THE PRESSURE, AND OIL DROPOUT     --
+--OCCURS. THE RESERVOIR IS DOME SHAPED, WITH A GAS WATER CONTACT --
+--AT THE EDGES (SPE COMPARATIVE SOLUTION NO 3)                   
+--SPE third comprative problem
+--9 components
+--peng robinson  EoS with correction
+--Grid dimentions 9*9*4
+--CASE 1 - Uses a Constant Recycle Gas Rate (4700 MSCF/Day) 
+--AIM solution method
+--FIELD units
+--3 stage separator
+--GRUPSALE and gas reinjection of remaining gas
+--------------------------------------------------------------------------
+----------------RUNSPEC ection--------------------------------------------
+RUNSPEC
+--unit
+FIELD
+--presence of water
+WATER
+--solution method
+AIM
+--number of components in study
+COMPS
+ 9 /
+--equastion of state
+EOS
+PR /
+
+--dimention of blocks
+DIMENS
+9 9 4  /
+
+--TABDIMS
+--1   1   25  25   4   15  /
+
+ISGAS
+MULTSAVE
+0 /
+--NOSIM
+
+UNIFOUT
+UNIFIN
+
+GRID
+--basic grid block sizes
+INIT
+EQUALS
+'DX' 293.3 /
+'DY' 293.3 /
+'PORO' 0.13 /
+
+--    DZ      Depth    Nxmin   Nxmax   Nymin   Nymax   DZmin  DZmax
+     'DZ'     30	1	9 	1	9	1	2  /
+     'DZ'     50	1	9 	1	9	3	4  /
+     
+     'PERMX'  130       1	9 	1	9	1	1  /
+     'PERMX'  40        1	9 	1	9	2	2  /
+     'PERMX'  20        1	9 	1	9	3	3  /
+     'PERMX'  150       1	9 	1	9	4	4  /
+
+     'PERMZ'  13        1	9 	1	9	1	1  /
+     'PERMZ'  4         1	9 	1	9	2	2  /
+     'PERMZ'  2         1	9 	1	9	3	3  /
+     'PERMZ'  15        1	9 	1	9	4	4  /
+
+     'TOPS'   7315      1	9	1	9	1	1  /
+
+/
+COPY 
+  'PERMX' 'PERMY' 1 9 1 9 1 4 /
+/
+RPTGRID 
+1 1 1 1 1 1 0 0 1 1 0 1 1 0 1 1 1 /
+
+PROPS
+--table of rock and fluid properties
+INCLUDE 
+  EOSMODEL.PVO /
+
+--water saturation function
+--Sw   Kro  Pcg-w
+SWFN
+ 0.16  0.000  50.0
+ 0.20  0.002  32.0
+ 0.24  0.010  21.0
+ 0.28  0.020  15.5
+ 0.32  0.033  12.0
+ 0.36  0.049   9.2
+ 0.40  0.066   7.0
+ 0.44  0.090   5.3
+ 0.48  0.119   4.2
+ 0.52  0.150   3.4
+ 0.56  0.186   2.7
+ 0.60  0.227   2.1
+ 0.68  0.330   1.3
+ 0.72  0.390   1.0
+ 0.76  0.462   0.7
+ 0.80  0.540   0.5
+ 0.88  0.710   0.3
+ 0.96  0.900   0.1   
+ 1.00  1.000   0.0 /
+
+--Gas Saturation Function Data
+--Sg   Krg     Pcog
+SGFN
+ 0.00  0.000   0
+ 0.04  0.005   0
+ 0.08  0.013   0
+ 0.12  0.026   0
+ 0.16  0.040   0
+ 0.20  0.058   0
+ 0.24  0.078   0
+ 0.28  0.100   0
+ 0.32  0.126   0
+ 0.40  0.187   0
+ 0.44  0.222   0
+ 0.52  0.300   0
+ 0.56  0.348   0
+ 0.60  0.400   0  
+ 0.68  0.505   0
+ 0.72  0.562   0
+ 0.76  0.620   0
+ 0.84  0.740   0 / 
+
+--Using Kro values given in the paper as both Krow & Krog
+--Three Phase Oil Saturation Function
+--S   Krow   Krog
+SOF3
+ 0.24  0.000  0.000
+ 0.28  0.005  0.005
+ 0.32  0.012  0.012
+ 0.36  0.024  0.024
+ 0.40  0.040  0.040
+ 0.44  0.060  0.060
+ 0.48  0.082  0.082
+ 0.52  0.112  0.112
+ 0.56  0.150  0.150
+ 0.60  0.196  0.196 
+ 0.64  0.250  0.250
+ 0.68  0.315  0.315
+ 0.72  0.400  0.400
+ 0.76  0.513  0.513
+ 0.80  0.650  0.650 
+ 0.84  0.800  0.800 /
+
+--Rock and water presure data
+
+ROCK
+--P@refdepth   Cr
+3550.0 4.0E-6 /
+
+PVTW
+--water PVT function
+--Pref   Bw@Pref    Cw  Miowate@ref   water viscosibility
+3550.0 1.0 3.0E-6 0.70 0.0 /
+--surface density of water 
+DENSITY
+38.53  63.0 0.06864  /
+
+--Solution section----------------------------------------------------
+SOLUTION
+--Equlibration data-inintial pressure 4000 psi at 8400.which is 
+-- the oil-water and oil-gas contact depth
+EQUIL
+--datum depth    P@d.d     Depth WOC  Pc(woc)   Depth(GOC)  Pc(GOC) Ninteger
+7500 3550 7500 0 7500 0 /
+OUTSOL
+PRESSURE SOIL VOIL / 
+RPTSOL
+
+PRESSURE SOIL PCO PCG /
+FIELDSEP SEP
+1  80 815 /
+2  80  65 /
+3  60 14.7 /
+/
+
+--SUMMARY section--------------------------------------------------------
+SUMMARY
+RUNSUM
+--EXCEL
+SEPARATE
+
+ALL
+FWIR
+FOPR
+FOPT
+FOIP
+FWPT
+FGOR
+FPR
+FOE
+FWPR
+FWIT
+FGPR
+COFRF
+COFRS
+FVIR
+WXMF
+PRODUCER /
+/
+--producer block data
+BVOIL 
+7 7 4 /
+/
+BSOIL
+7 7 4 /
+/
+BSOIL
+7 7 3 /
+/
+BSOIL
+7 7 2 /
+/
+BSOIL
+7 7 1 /
+/
+BSGAS
+7 7 4 /
+/
+BPRES
+7 7 4 /
+/
+BXMF
+1 1 1 9 /
+/
+BYMF
+1 1 1 9 /
+/
+
+--RUNSUM
+--SEPARATE
+
+--EXCEL
+
+--Schedule section ----------------------------------------------------
+SCHEDULE
+RPTSCHED
+1 1 1 1 1 1 1 0 0 0 
+2 2 0 0 0  /
+--define separator;third stage represents stock tank
+SEPCOND
+SEP FIELD 1 80 815 /
+SEP FIELD 2 80  65 /
+SEP FIELD 3 60 14.7 /
+/
+--Define injection and production wells
+WELSPECS
+ 'PRODUCER' 'FIELD' 7 7 7500 'GAS'  /
+ 'INJ-G   ' 'FIELD' 1 1 7500 'GAS' /
+--'INJ-W   ' 'FIELD' 1 1 8335 'WAT' /
+/
+--WSEPCOND
+---P SEP /
+--/
+COMPDAT
+ 'PRODUCER' 7 7 3 4 'OPEN' 0 -1 2 /
+ 'INJ-G   ' 1 1 1 2 'OPEN' 0 -1 2 /
+--'INJ-W   ' 1 1 1 1 'OPEN' 0 -1 0.25 10000 /
+/
+WCONPROD
+  'PRODUCER' 'OPEN'  'GRAT' 2* 6200 2*  500  /
+/
+--Well operation target and limit
+--WELTARG
+--'PRODUCER' BHP 500 /
+--/ 
+WCONINJE
+-- 'INJ-W' 'WAT' 'OPEN' 'RATE' 45000 1* 4500 1* 1* /
+ 'INJ-G' 'GAS' 'OPEN' 'RATE' 4700 1* 4000 1* 1* /
+/
+--sales gas rat of 1500 MSCF/DAY specified
+GRUPSALE
+FIELD 1500 /
+/
+GCONINJE
+'FIELD'  GAS NONE  2* 1 /
+/
+GINJGAS
+'FIELD'   GV  'FIELD' /
+/
+WELLSTRE
+'MIXA' 0.77 0.20 0.03 /
+/
+
+WINJGAS  
+'INJ-G' STREAM  'MIXA' /
+/
+WINJMIX
+'MIXA'  1  0.77 GAS 'MIXA'/
+'MIXA'  2  0.20 GAS 'MIXA'/
+'MIXA'  3  0.03 GAS 'MIXA'/
+/
+--first 3 months---------------------------------------------- 
+TUNING 
+1.00 365.00 0.1 0.15 20 /
+120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+/
+TSTEP 
+91.25 
+/
+--second 3 months--------------------------------------------------
+TUNING 
+1.00 365.00 0.1 0.15 20 /
+120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+12 1 40  1 1* 1* /
+/
+TSTEP
+91.25 
+/
+--Third 3 months------------------------------------------------------
+--TUNING 
+--1.00 365.00 0.1 0.15 20 /
+--120.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+TSTEP
+91.25 
+/
+--FORTH 3 MONTHES-----------------------------------------------------
+--TUNING
+--20.0 /
+--5.0 0.01 1.0E-6 2* 0.1 1.0E-5 /
+--/
+TSTEP
+91.25 
+/
+-------------------------------------------------------
+TSTEP
+ 9*365 
+/
+WCONINJE
+ 'INJ-G' 'GAS' 'OPEN' 'RATE' 0 1* 4000 1* 1* /
+/
+--sales gas rat of 6200 MSCF/DAY specified
+GRUPSALE
+FIELD 6200 /
+/
+GCONINJE
+'FIELD'  GAS NONE  2* 1 /
+/
+GINJGAS
+'FIELD'   GV  'FIELD' /
+/
+WELLSTRE
+'MIXA' 0.77 0.20 0.03 /
+/
+
+WINJGAS  
+'INJ-G' STREAM  'MIXA' /
+/
+WINJMIX
+'MIXA'  1  0.77 GAS 'MIXA'/
+'MIXA'  2  0.20 GAS 'MIXA'/
+'MIXA'  3  0.03 GAS 'MIXA'/
+/
+-------------------------------------------------------
+TSTEP
+ 10*365 
+/
+END
+-----------------------------------------------------------

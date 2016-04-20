@@ -1,0 +1,280 @@
+-------------------------------------------------------------------
+--THIS IS A RUN DEMONSTATING THE GAS CONDENSATE AND SOLUTION     --
+--OPTIONS IN ECLIPSE. THE RUN IS THREE PHASE AND THREE           --
+--DIMENSIONAL, STARTING WITH GAS ABOVE THE DEW POINT.            --
+--A SINGLE GAS PRODUCER LOWERS THE PRESSURE, AND OIL DROPOUT     --
+--OCCURS. THE RESERVOIR IS DOME SHAPED, WITH A GAS WATER CONTACT --
+--AT THE EDGES (SPE COMPARATIVE SOLUTION NO 3)                   --
+-------------------------------------------------------------------
+RUNSPEC
+
+TITLE
+                      GAS CONDENSATE TEST
+
+DIMENS
+    9    9    4  /
+NOSIM
+NONNC
+
+OIL
+
+WATER
+
+GAS
+
+--DISGAS
+
+VAPOIL
+
+FIELD
+
+TABDIMS
+    1    1   25   25    1   15 /
+
+WELLDIMS
+   18    2    2   10 /
+
+NUPCOL
+    4 /
+
+VFPPDIMS
+    7    3    4    2    0    1 /
+
+VFPIDIMS
+    6    3    1 /
+
+START
+   1 'NOV' 2004  /
+
+NSTACK
+    25 /
+
+UNIFIN
+UNIFOUT
+
+--Grid Section ========================================================
+GRID
+       
+INIT
+
+EQUALS
+     'DX'     293.3    /
+     'DY'     293.3    /
+     'PORO'   0.13     /
+
+--    DZ      Depth    Nxmin   Nxmax   Nymin   Nymax   DZmin  DZmax
+     'DZ'     30	1	9 	1	9	1	2  /
+     'DZ'     50	1	9 	1	9	3	4  /
+     
+     'PERMX'  130       1	9 	1	9	1	1  /
+     'PERMX'  40        1	9 	1	9	2	2  /
+     'PERMX'  20        1	9 	1	9	3	3  /
+     'PERMX'  150       1	9 	1	9	4	4  /
+
+     'PERMZ'  13        1	9 	1	9	1	1  /
+     'PERMZ'  4         1	9 	1	9	2	2  /
+     'PERMZ'  2         1	9 	1	9	3	3  /
+     'PERMZ'  15        1	9 	1	9	4	4  /
+
+     'TOPS'   7315      1	9	1	9	1	1  /
+/
+
+
+COPY 
+ 'PERMX'   'PERMY' /
+/
+
+--RPTGRID
+--   13*0 1 
+
+--Props Section ==========================================================
+
+PROPS   
+    
+
+--Water Saturation Function Data
+--Sw   Kro  Pcg-w
+SWFN
+ 0.16  0.000  50.0
+ 0.20  0.002  32.0
+ 0.24  0.010  21.0
+ 0.28  0.020  15.5
+ 0.32  0.033  12.0
+ 0.36  0.049   9.2
+ 0.40  0.066   7.0
+ 0.44  0.090   5.3
+ 0.48  0.119   4.2
+ 0.52  0.150   3.4
+ 0.56  0.186   2.7
+ 0.60  0.227   2.1
+ 0.68  0.330   1.3
+ 0.72  0.390   1.0
+ 0.76  0.462   0.7
+ 0.80  0.540   0.5
+ 0.88  0.710   0.3
+ 0.96  0.900   0.1   
+ 1.00  1.000   0.0 /
+
+
+
+--Gas Saturation Function Data
+--Sg   Krg     Pcog
+SGFN
+ 0.00  0.000   0
+ 0.04  0.005   0
+ 0.08  0.013   0
+ 0.12  0.026   0
+ 0.16  0.040   0
+ 0.20  0.058   0
+ 0.24  0.078   0
+ 0.28  0.100   0
+ 0.32  0.126   0
+ 0.40  0.187   0
+ 0.44  0.222   0
+ 0.52  0.300   0
+ 0.56  0.348   0
+ 0.60  0.400   0  
+ 0.68  0.505   0
+ 0.72  0.562   0
+ 0.76  0.620   0
+ 0.84  0.740   0 / 
+
+
+--Using Kro values given in the paper as both Krow & Krog
+--Three Phase Oil Saturation Function
+--S   Krow   Krog
+
+SOF3
+ 0.24  0.000  0.000
+ 0.28  0.005  0.005
+ 0.32  0.012  0.012
+ 0.36  0.024  0.024
+ 0.40  0.040  0.040
+ 0.44  0.060  0.060
+ 0.48  0.082  0.082
+ 0.52  0.112  0.112
+ 0.56  0.150  0.150
+ 0.60  0.196  0.196 
+ 0.64  0.250  0.250
+ 0.68  0.315  0.315
+ 0.72  0.400  0.400
+ 0.76  0.513  0.513
+ 0.80  0.650  0.650 
+ 0.84  0.800  0.800 /
+
+INCLUDE
+ AWAN100.PVO /
+
+-- Water PVT Properties
+--Press.   FVF    Compress.   Visc.   Viscosibility
+PVTW
+ 3550  1.025  3.0582e-06  0.3045  5.4211e-06  /
+
+ROCK
+3550    0.000004    /       
+
+--Solution Section  ======================================================
+
+SOLUTION  
+-- INITIAL CONDITIONS - 310 BARS AT 2070 METERS, GWC AT 2100 METERS
+-- TILTED BLOCK EQUILIBRATION
+--  1 TABLES    2 NODES IN EACH           FIELD  11:29 14 OCT 83
+EQUIL      
+--Datum   Press  Contact  Pc@Cont  DepthCont
+  7500    3550   7500     0.000    7500     0.0 /
+
+-- OIL INITIALLY SET SATURATED, ALTHOUGH NO LIQUID OIL IN INITIAL STATE
+
+--RSVD       1 TABLES    2 NODES IN EACH           METRIC  11:31 14 OCT 83
+--   2000.0   100
+--   2500.0   100
+--
+
+-- VAPOUR INITIALLY UNDER-SATURATED WITH RV = 0.00035
+--   1 TABLES    2 NODES IN EACH           METRIC  11:31 14 OCT 83
+--RVVD      
+--   2000.0   .00035
+--   2500.0   .00035
+--
+--
+-- INITIAL SOLUTION REPORTS
+--
+--RPTSOL                                           FIELD  12:45 14 OCT 83
+--   1   0   1   1   0   1   0   1   1   0   1   0   0   0   0   0   0
+--   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+--   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 /
+
+--Summary Section =================================================
+
+SUMMARY
+
+FGPR
+FWPR
+FOPR
+FGIR
+--FOSAT
+FGSAT
+WBHP
+/
+RUNSUM
+
+EXCEL
+
+SEPARATE
+/
+
+--Schedule Section =================================================
+
+SCHEDULE  
+
+-- REPORT SWITCHES
+RPTSCHED                                         METRIC  12:44 14 OCT 83
+   1   1   1   0   0   1   2   1   2   1   2   2   0   1   2   0   0
+   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   /
+
+-- STEPS TO 1400 DAYS
+
+WELSPECS
+    'PRODUCER' 'G'    7  7  7500 'GAS' /
+    'INJECTOR' 'G'    1  1  7500 'GAS' /
+/
+
+COMPDAT
+    'PRODUCER'   7  7  3  4 'OPEN' 0   -1   0.5 10000 /
+    'INJECTOR'   1  1  1  2 'OPEN' 0   -1   0.5 10000 /
+  /
+
+-- PRODUCTION WELL CONTROLS
+--
+--      WELL     OPEN/  CNTL   OIL  WATER   GAS  LIQU   RES   BHP
+--      NAME     SHUT   MODE  RATE   RATE  RATE  RATE  RATE
+
+WCONPROD
+  'PRODUCER' 'OPEN'  'GRAT' 2* 6200 2* 500 /
+  /
+WCONINJE
+ 'INJECTOR' 'GAS' 'OPEN' 'RATE' 4700 1* 4000 1* 1* /
+/
+TSTEP                                            METRIC  17:44 17 OCT 83
+ 25*100.0
+/
+TSTEP
+ 2*150
+/
+TSTEP
+ 100
+/
+--
+END
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,441 @@
+-- EOR-SURFACTANT-ADSORB.DATA
+-- Simulation of Enhances Oil Recovery Processes Course
+-- Randomly heterogeneout sector model
+--
+RUNSPEC
+TITLE
+ Surfactant model test case - SEORP Course
+
+DIMENS
+-- nx   ny    nz
+   30   30    4  /
+
+OIL
+
+WATER
+
+--Enables the Surfactant model
+SURFACT
+--Enables modelling of changes of wettability in
+-- Surfactant model
+SURFACTW
+
+METRIC
+
+TABDIMS
+-- num num  max  max     max   max
+-- sat pvt  sat press    fip   Rs
+-- tab tab nodes nodes regions nodes
+    3    1   20   20    1      20 /
+
+WELLDIMS
+-- max    max  max    max
+-- wells conn  groups wells/gr
+    2      5    1      2 /
+
+
+NSTACK
+    100 /
+
+UNIFOUT
+UNIFIN
+
+START
+   1  MAY  2009  /
+
+
+GRID      ==============================================================
+
+INIT
+
+INCLUDE
+  '3D.FILLED' /
+
+NOECHO
+
+INCLUDE
+   permx3.dat
+/
+INCLUDE
+   poro3.dat
+/
+
+
+COPY
+   PERMX   PERMY  /
+   PERMX   PERMZ  /
+/
+
+MULTIPLY
+-- change Kv/Kh
+-- prop   multi  i1 i2 j1 j2 k1 k2
+  PERMZ   0.01   1  30  1 30  1  4    /
+/
+
+RPTGRID
+   PORO  PERMX  /
+
+ECHO
+
+PROPS     ==============================================================
+
+
+SWFN
+-- Swat   Krw       Pcow  OIL WET
+  0.25   0.0        0.75
+  0.35   0.15       0.1
+  0.45   0.5        0.0
+  0.55   1.0       -1.5
+/
+
+-- Swat   Krw    Pcow  WATER WET
+  0.25  0.0       8.
+  0.35  0.1       2.
+  0.45  0.35      0.5
+  0.55  0.6       0.
+/
+
+--  Swat  Krw    Pcow   MISCIBLE
+    0.0    0.0   0.0
+    1.0    1.0   0.0
+/
+
+SOF2
+--Soil    Kro  OIL WET
+  0.45    0.0
+  0.55    0.05
+  0.65    0.25
+  0.75    1.0
+/
+
+--  Soil  Kro  WATER WET
+  0.45    0.0
+  0.55    0.1
+  0.65    0.4
+  0.75    1.0
+/
+
+--  Soil  Kro  MISCIBLE
+    0.0    0.0
+    1.0    1.0
+/
+
+PVTW
+--     Pref    Bw      Cw         Vw           Cvw
+--    psia    rb/stb   1/psi     CPOISE        1/psi
+       270    1.030   4.6E-5     0.34          0.0  /
+
+PVDO
+  200    1.0     0.47
+  280    0.999   0.47
+  300    0.998   0.47
+/
+
+-- ROCK COMPRESSIBILITY
+--
+--    REF. PRES   COMPRESSIBILITY
+ROCK
+        270        0.3E-5 /
+
+DENSITY
+-- oil    water gas
+   850.  1000.  10. /
+
+--------------------------------------------------------
+--Surfactant solution viscosity function
+SURFVISC
+--surfactant       solution water
+--concentration    viscosity at this
+--in the solution  surfactant concentration
+--kg/m3
+  0.0              0.34
+  10.5             5.0  /
+
+-------------------------------------------------------------
+
+--Surfactant adsorption functions
+--Column 1: The local surfactant concentration in
+--the solution surrounding the rock
+-- Column 2 The corresponding saturated concentration of
+--surfactant adsorbed by the rock formation
+SURFADS
+--surfactant   surf conc
+-- conc        adsorbed on rock
+-- kg/m3        (kg/kg)= kg surfactant/kg rock
+   0.0          0.0000
+   1.0          0.0005
+  10.5          0.0005  /
+/
+/
+
+---------------------------------------------------------
+--Water/oil surface tension versus surfactant concentration
+SURFST
+-- surf     water-oil
+-- conc     surface tension
+-- kg/m3     (N/m)
+ 0.0          0.05
+ 1.0          1.0E-6
+ 10.5         1.0E-14  /
+ 
+------------------------------------------------------
+--Surfactant capillary de-saturation functions
+SURFCAPD
+--log of    miscibility
+--capillary function
+--number     0=immiscible, 1=miscible
+   -10       0.0
+   -8        0.0
+   -6        0.2
+   -5        0.5
+   -4        0.7
+   -3        1.0
+   -2        1.0
+   10        1.0 /
+/
+/
+---------------------------------------------------------
+--Specifies the surfactant-rock properties
+SURFROCK
+--adsorption mass density
+--index      of rock type
+--            kg/rm3
+    2         2323 /
+    2         2323 /
+    2         2323 /
+
+-- Index values:
+--If a value of 1 is selected, then the surfactant
+--adsorption isotherm is retraced whenever the
+--local surfactant concentration in the solution decreases.
+--If a value of 2 is selected,
+--then no surfactant desorption may occur.
+------------------------------------------------------------------
+
+--Defines weighting between
+--oil-wet and water-wet relative permeabilities
+--as a function of the adsorbed surfactant mass.
+
+--Tables of concentration of adsorbed
+--surfactant versus fraction of oil-wet and
+--water-wet saturation functions
+SURFADDW
+--Concentration  Weighting of oil-wet
+--of adsorbed    to water-wet
+--surfactant     saturation function
+-- kg surf/kg rock =
+-- adsorbed
+      0              1.0
+   0.0001            0.5
+   0.0003            0.0 
+   0.0005            0.0
+   /
+   /
+   /
+
+--A value of 1.0 implies that only the oil-wet saturation functions
+--will be used (as defined by SATNUM) and a value of 0.0
+--implies purely water-wet saturation functions
+--(as defined by SURFWNUM).
+-----------------------------------------------------------------------
+
+RPTPROPS
+    18*0 1 /
+
+REGIONS    =============================================================
+
+--the oil-wet saturation functions
+SATNUM
+ 3600*1 /
+
+--rel perms and cap press when miscible
+--Surfactant miscible region numbers
+SURFNUM
+ 3600*3 /
+
+--specifying the water-wet saturation function region
+SURFWNUM
+ 3600*2 /
+
+
+SOLUTION   =============================================================
+
+PRESSURE
+ 3600*270.0 /
+
+-- initial water sat = 0.55
+SWAT
+ 3600*0.55 /  
+
+
+RPTSOL
+ FIP=2 RESTART=2 PRESSURE SOIL SWAT SOCRS /
+
+SUMMARY    ===========================================================
+
+TCPU
+
+TIMESTEP
+
+DATE
+
+-- Oil recovery
+FOE
+
+FPR
+
+WBHP
+/
+FWIR
+FOPR
+FOPT
+FWCT
+
+FTPRSUR
+FTPTSUR
+FTIRSUR
+FTITSUR
+FTADSUR
+
+-- block surfactant concentration
+BTCNFSUR
+  1  1 1 /
+ 10 10 1 /
+ 20 20 1 /
+ 30 30 1 /
+  1  1 2 /
+ 10 10 2 /
+ 20 20 2 /
+ 30 30 2 /
+  1  1 3 /
+ 10 10 3 /
+ 20 20 3 /
+ 30 30 3 /
+  1  1 3 /
+ 10 10 4 /
+ 20 20 4 /
+ 30 30 4 /
+/
+BOSAT
+  1  1 1 /
+ 10 10 1 /
+ 20 20 1 /
+ 30 30 1 /
+  1  1 2 /
+ 10 10 2 /
+ 20 20 2 /
+ 30 30 2 /
+  1  1 3 /
+ 10 10 3 /
+ 20 20 3 /
+ 30 30 3 /
+  1  1 3 /
+ 10 10 4 /
+ 20 20 4 /
+ 30 30 4 /
+/
+--surfactant production rate
+WTPRSUR
+ OP  /
+
+--total block surfactant adsorption
+BTADSUR
+  1  1 1 /
+ 10 10 1 /
+ 20 20 1 /
+ 30 30 1 /
+  1  1 2 /
+ 10 10 2 /
+ 20 20 2 /
+ 30 30 2 /
+  1  1 3 /
+ 10 10 3 /
+ 20 20 3 /
+ 30 30 3 /
+  1  1 3 /
+ 10 10 4 /
+ 20 20 4 /
+ 30 30 4 /
+/
+
+
+
+--RPTONLY
+ALL
+SEPARATE
+RUNSUM
+
+SCHEDULE   ===========================================================
+
+RPTSCHED
+ 'FIP=2' 'SUMMARY=2'  /
+
+--PRESSURE  SOIL  SWAT 'FIP=2' 'SUMMARY=2'  FIPSURF SURFADS SURFBLK /
+
+
+-- WELL   GROUP LOCATION  BHP   PI
+-- NAME   NAME    I   J   DEPTH DEFN
+WELSPECS
+  OP      G      30 30   2600   OIL   /
+  INJ     G      1  1    2600   WAT   /
+/
+
+-- COMPLETION SPECIFICATION DATA
+--
+-- WELL     -LOCATION-  OPEN/ SAT CONN WELL EFF SKIN
+-- NAME    I   J  K1 K2  SHUT  TAB FACT  ID  KH
+COMPDAT
+--1     2   3   4   4    6     7   8    9
+ OP     1*  1*  1   4  OPEN    0   0   .3 /
+ INJ    1*  1*  1   4  OPEN    0   0   .3 /
+/
+
+
+-- PRODUCTION WELL CONTROLS
+--
+--  WELL    OPEN/  CNTL   OIL  WATER   GAS  LIQU   RES   BHP
+--  NAME    SHUT   MODE  RATE   RATE  RATE  RATE  RATE
+WCONPROD
+   OP      OPEN    RESV   1*    1*    1*    1*    500   100 /
+/
+
+-- inject water for 100 days
+-- INJECTION WELL CONTROLS
+WCONINJE
+-- Well  inj    current cntl   Surf   RESV
+-- Name  Phase  Status  Mode   rate   rate   bhp
+   INJ   WAT     OPEN   RESV    1*    500    600  /
+/
+TUNING
+ .01  10  .0001  .0001 /
+ /
+ 2*  100   /
+
+RPTRST
+ 'FIP=2'  SURFBLK /
+
+TSTEP
+ 10*10 /
+
+-- start injecting surfactant mixture in injection well
+-- for 1000 days
+--Sets surfactant concentration for injection
+--wells
+WSURFACT
+--well     surfactant injection
+--name      conc Kg/m3
+  INJ        10.5 /
+ /
+
+TSTEP
+ 10*100 /
+
+-- stop surfactant injection - follow with water only for 5000 days
+WSURFACT
+  INJ   0.0 /
+ /
+
+TSTEP
+ 50*100 /
+
+END
