@@ -3,10 +3,10 @@ import os
 import fileinput
 import subprocess
 
-def get_fitness(vector, txt_search):
+def get_fitness_sensivity(i, j, k, l):
     sim_case_dir = os.path.join(os.getcwd(), 'sim_case')
-    shutil.copy("BASE_origin.tmp", sim_case_dir)
-    sim_case = os.path.join(sim_case_dir, "BASE_origin.tmp")
+    shutil.copy("BASE_sensivity_opt.tmp", sim_case_dir)
+    sim_case = os.path.join(sim_case_dir, "BASE_sensivity_opt.tmp")
     sim_case_tmp = os.path.join(sim_case_dir, "BASE.DATA")
     run_eclipse = 'run_eclipse.py'
 
@@ -14,8 +14,14 @@ def get_fitness(vector, txt_search):
     result = []
     shutil.copy(sim_case, sim_case_tmp)
 
-    textToSearch = txt_search
-    textToReplace = str(vector[0])
+    textToSearch1 = "oil_prod"
+    textToSearch2 = "water_inj"
+    textToSearch3 = "time_HS"
+    textToSearch4 = "time_LS"
+    textToReplace1 = str(i[0])
+    textToReplace2 = str(j[0])
+    textToReplace3 = str(k[0])
+    textToReplace4 = str(l[0])
 
 ############ DEBUG
     # if os.path.exists("vector_debug.txt"):
@@ -30,7 +36,18 @@ def get_fitness(vector, txt_search):
 
     with fileinput.FileInput(sim_case_tmp, inplace=True, backup='.bak') as file:
         for line in file:
-            print(line.replace(textToSearch, textToReplace), end='')
+            print(line.replace(textToSearch1, textToReplace1), end='')
+    with fileinput.FileInput(sim_case_tmp, inplace=True, backup='.bak') as file:
+        for line in file:
+            print(line.replace(textToSearch2, textToReplace2), end='')
+
+    with fileinput.FileInput(sim_case_tmp, inplace=True, backup='.bak') as file:
+        for line in file:
+            print(line.replace(textToSearch3, textToReplace3), end='')
+
+    with fileinput.FileInput(sim_case_tmp, inplace=True, backup='.bak') as file:
+        for line in file:
+            print(line.replace(textToSearch4, textToReplace4), end='')
 
     subprocess.call(['python', run_eclipse])
 
@@ -41,8 +58,8 @@ def get_fitness(vector, txt_search):
                 for line in fin:
                     pass
                 fout.write(line)
-                fout.write("\n")
-                fout.write("Oil production: " + str(vector[0]))
+                # fout.write("\n")
+                # fout.write("Oil production: " + str(vector[0]))
                 fout.write("\n")
                 result = line.split()[2]
                 # print(line)

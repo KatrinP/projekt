@@ -1,5 +1,9 @@
 #! usr/bin/env python3
 
+# Changing 1 parameter
+# problem_size = 1
+# search_space = [[1, 30] for i in range(problem_size)]
+
 import random
 import math
 import os
@@ -11,8 +15,11 @@ from ecl_to_alg import get_fitness
 
 
 def objective_function(vector):
-    result = get_fitness(vector)
-    # result = random.choice([2000.13, 500.4, 5546.1, 1836.5, 222, 
+    result = float(get_fitness(vector))
+    with open("debug_ghs_LS_HS_plot.txt", "w") as fout:
+        fout.write("Type of result " + str(type(result)))
+
+    # result = random.choice([2000.13, 500.4, 5546.1, 1836.5, 222,
         # 1000, 1500, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000])
     return result
 
@@ -35,10 +42,10 @@ def create_random_harmony(search_space):
     return harmony
 
 def initialize_harmony_memory(HMS, search_space):
-    memory = [create_random_harmony(search_space) 
+    memory = [create_random_harmony(search_space)
               for i in range(HMS)]
     # print(memory)
-    #memory = sorted(memory, key=itemgetter('fitness')) 
+    #memory = sorted(memory, key=itemgetter('fitness'))
     memory = sorted(memory, key= lambda k: k["fitness"])
     return [memory[i] for i in range(HMS)]
 
@@ -62,7 +69,7 @@ def create_harmony(search_space, memory, best, HMCR, PARmin, PARmax, max_iter, g
             vector[i] = value
         else:
             vector = random_vector(search_space)
-    
+
     return {"vector": vector}
 
 def search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, total):
@@ -74,13 +81,20 @@ def search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, total):
         harm["fitness"] = objective_function(harm["vector"])
         if harm["fitness"] > best["fitness"]:
             best = harm
+
+        ## Penalty function for heavy time calculations
+        # else:
+        #     penalty += 1
+        # if penalty >= 10:
+        #     continue
+
         memory.append(harm)
         memory = sorted(memory, key= lambda k: k["fitness"])
 
         del memory[0]
 
         # write fitness
-        path0 = os.path.join(os.getcwd(), 'data', 'ghs_2D_LS_HS', 'fitness')
+        path0 = os.path.join(os.getcwd(), 'data', 'ghs_LS_HS', 'fitness')
         if not os.path.exists(path0):
             os.mkdir(path0)
         path = os.path.join(path0, str(total))
@@ -92,7 +106,7 @@ def search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, total):
                 spamwriter.writerow([i,best['fitness']])
 
         ## write coordinates
-        path20 = os.path.join(os.getcwd(), 'data', 'ghs_2D_LS_HS', 'vectors')
+        path20 = os.path.join(os.getcwd(), 'data', 'ghs_LS_HS', 'vectors')
         if not os.path.exists(path20):
             os.mkdir(path20)
         path2 = os.path.join(path20, str(total))
@@ -107,7 +121,7 @@ def search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, total):
 
 
 if __name__ == "__main__":
-    # clean directories/files 
+    # clean directories/files
     if os.path.exists('results/ghs_LS_HS_plot_runtime.txt'):
         os.remove('results/ghs_LS_HS_plot_runtime.txt')
 
@@ -115,10 +129,10 @@ if __name__ == "__main__":
     if not os.path.exists(path000):
         os.mkdir(path000)
 
-    path00 = os.path.join(path000, 'ghs_2D_LS_HS')
+    path00 = os.path.join(path000, 'ghs_LS_HS')
     if not os.path.exists(path00):
         os.mkdir(path00)
-    path='data/ghs_2D_LS_HS/'
+    path='data/ghs_LS_HS/'
     for directory in os.listdir(path):
         spam = os.path.join(path,directory)
         if os.path.isdir(spam):
@@ -130,35 +144,40 @@ if __name__ == "__main__":
 
     # algorithm configuration
     HMS = 5
+    # HMS = 1
     HMCR = 0.95
     PARmin = 0.4
     PARmax = 0.9
     max_iter = 30 #1000
+    # max_iter = 1
 
-    repeat_iter = 10
+    repeat_iter = 30
+    # repeat_iter = 1
 
     # execute the algorithm
     path_results = os.path.join(os.getcwd(), 'results')
     if not os.path.exists(path_results):
         os.mkdir(path_results)
+
+    t_start = time.time()
+
+    for i in range(repeat_iter):
+        with open("results/ghs_LS_HS_plot_runtime.txt", "a") as fout:
+            t_start_a = time.time()
+            best = search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, i)
+            t_end_a = time.time()
+            t_total_a = t_end_a - t_start_a
+            minute, second = divmod(t_total_a, 60)
+            fout.write("Iteration " + str(i+1) + "/" + str(repeat_iter))
+            fout.write(" runtime:" + "{:2.0f}".format(minute) + 'min')
+            fout.write(" {:2.2f}".format(second) + 'sec')
+            fout.write("\n")
+            print("best", best)
+
     with open("results/ghs_LS_HS_plot_runtime.txt", "a") as fout:
-            t_start = time.time()
-
-            for i in range(repeat_iter):
-                t_start_a = time.time()
-                best = search(search_space, max_iter, HMS, HMCR, PARmin, PARmax, i)
-                t_end_a = time.time()
-                t_total_a = t_end_a - t_start_a
-                fout.write(
-                str(i) + " loop runtime:" + str(t_total_a / 60) + '[min]')
-                fout.write("\n")
-                print("best", best)
-
-            t_end = time.time()
-            t_total = t_end - t_start
-
-            fout.write("\n")
-            fout.write(time.strftime("%Y-%m-%d %H:%M:%S"))
-            fout.write(
-                "  >> Total runtime:" + str(t_total / 60) + '[min]')
-            fout.write("\n")
+        t_end = time.time()
+        t_total = t_end - t_start
+        fout.write("\n")
+        fout.write(time.strftime("%Y-%m-%d %H:%M:%S"))
+        fout.write("  >> Total runtime:" + str(t_total / 60) + '[min]')
+        fout.write("\n")
