@@ -444,11 +444,11 @@ TSTEP
 
 --Reservoir fluid volume rate target or upper limit
 WCONPROD
-'OP' 'OPEN' 'RESV' 4* 200 0.0 4* /
+'OP' 'OPEN' 'RESV' 4* 400 0.0 4* /
 /
 --Reservoir fluid volume rate target or upper limit
 WCONINJE
-'INJ' 'WAT' 'OPEN' 'RESV' 1* 100  /
+'INJ' 'WAT' 'OPEN' 'RESV' 1* 300  /
 /
 
 -- UDQ 
@@ -465,7 +465,7 @@ INJ 0.0 /
 
 -- Time of LS injection
 TSTEP
-15*30/
+20*30/
 
 END
 

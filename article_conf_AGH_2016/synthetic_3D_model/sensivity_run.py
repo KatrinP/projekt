@@ -29,8 +29,8 @@ def objective_function_multi(i, j, k, l):
 
 if __name__ == "__main__":
     # clean directories/files
-    if os.path.exists('results/sensivity_run.txt'):
-        os.remove('results/sensivity_run.txt')
+    if os.path.exists('results/sensivity_run.result'):
+        os.remove('results/sensivity_run.result')
 
     variable = "oil_prod"
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # print(problem_size)
 
     variable_conf = {
-        "oil_prod": [[i] for i in range(100, 500, 100)],
+        "oil_prod": [[i] for i in range(400, 500, 100)],
         "water_inj": [[i] for i in range(100, 500, 100)],
         "time_HS": [[i] for i in range(10, 55, 5)],
         "time_LS": [[i] for i in range(10, 55, 5)]
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         for j in variable_conf["water_inj"]:
             for k in variable_conf["time_HS"]:
                 for l in variable_conf["time_LS"]:
-                    with open("results/sensivity_run.txt", "a") as fout:
+                    with open("results/sensivity_run.result", "a") as fout:
                         best = objective_function_multi(i, j, k, l)
                         fout.write("Parameter: " + " ")
                         fout.write("oil_prod " + str(i) + " | ")
