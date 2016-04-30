@@ -1,1 +1,6 @@
-make result as a float
+make multi objective function
+
+options:
+- FOPT + FWPT
+- NPV = FOPT * price_oil_produced - FWPT*price_water_produced - FWIT*price_water_injected
+- Add optimal time of production to cut simulation time

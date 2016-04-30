@@ -9,11 +9,14 @@ import time
 import csv
 import shutil
 
-from ecl_to_alg_sensivity import get_fitness_sensivity
+from ecl_to_alg_multi import get_fitness_multi
 
+algo_name = __file__.split(".")[0]
 
-def objective_function(w, x, y, z):
-    result = float(get_fitness(w, x, y, z))
+def objective_function(vector):
+    w, x, y, z = vector
+    result = float(get_fitness_multi(w, x, y, z))
+    # result = random.choice([1000, 2000])
     with open("debug_ghs_LS_HS.txt", "w") as fout:
         fout.write("Type of result " + str(type(result)))
     return result
@@ -22,13 +25,12 @@ def rand_in_bounds(minimum, maximum):
     return random.randint(minimum, maximum)
 
 def random_vector(search_space):
-    rand_vector = [random.randint(min(search_space[0][0]), max(search_space[0][1]))]
-    # banned_list = [[1,1], [25,25], [1,25], [25,1]]
+    # rand_vector = [random.randint(min(search_space[0][0]), max(search_space[0][1]))]
+    rand_vector = [random.choice(search_space[0]),
+                    random.choice(search_space[1]),
+                    random.choice(search_space[2]),
+                    random.choice(search_space[3])]
     return rand_vector
-    # if rand_vector not in banned_list:
-    #     return rand_vector
-    # else:
-    #     return random_vector()
 
 def create_random_harmony(search_space):
     harmony = {}
@@ -55,11 +57,14 @@ def create_harmony(search_space, memory, best, HMCR, PARmin, PARmax, algo_iter, 
             value = memory[random.randint(0, len(memory)-1)]["vector"][i]
             if random.random() < PARmod:
                 # value = value + rand_in_bounds(-1.0, 1.0)
-                value = best["vector"][random.randint(0, limit-1)]
-            if value < search_space[i][0]:
-                value = search_space[i][0]
-            if value > search_space[i][1]:
-                value = search_space[i][1]
+                if i in [0,1]:
+                    value = best["vector"][random.randint(0, 1)]
+                else:
+                    value = best["vector"][random.randint(2, 3)]
+            if value < min(search_space[i]):
+                value = min(search_space[i])
+            if value > max(search_space[i]):
+                value = max(search_space[i])
 
             vector[i] = value
         else:
@@ -67,7 +72,7 @@ def create_harmony(search_space, memory, best, HMCR, PARmin, PARmax, algo_iter, 
 
     return {"vector": vector}
 
-def search(search_space, algo_iter, algo_conf, total, data_path):
+def search(search_space, algo_iter, algo_conf, total):
     HMS, HMCR, PARmin, PARmax = algo_conf
     memory = initialize_harmony_memory(HMS, search_space)
     best = memory[0]
@@ -89,7 +94,7 @@ def search(search_space, algo_iter, algo_conf, total, data_path):
 
         del memory[0]
 
-        check_io_result(data_path, total)
+        path, path2 = check_io_result(check_io_data(), total)
 
         # write fitness
         with open(os.path.join(path, 'fitness.csv'), 'a', newline='') as csvfile:
@@ -106,12 +111,14 @@ def search(search_space, algo_iter, algo_conf, total, data_path):
     return best
 
 
-def check_io_start(algo_name):
+def check_io_data():
     data = os.path.join(os.getcwd(), 'data')
     if not os.path.exists(data):
         os.mkdir(data)
+    return data
 
-    algo = os.path.join(data, algo_name)
+def check_io_start():
+    algo = os.path.join(check_io_data(), algo_name)
     if not os.path.exists(algo):
         os.mkdir(algo)
 
@@ -127,10 +134,11 @@ def check_io_start(algo_name):
     ## POSSIBLE UNNECCESSARY ??
     if os.path.exists(runtime):
         os.remove(runtime)
-    return runtime, data
+    return runtime
 
 
 def check_io_result(data_path, total):
+    algo = os.path.join(check_io_data(), algo_name)
     fitness = os.path.join(algo, 'fitness')
     if not os.path.exists(fitness):
         os.mkdir(fitness)
@@ -144,10 +152,11 @@ def check_io_result(data_path, total):
     path2 = os.path.join(vectors, str(total))
     if not os.path.exists(path2):
         os.mkdir(path2)
+    return path, path2
 
 
 if __name__ == "__main__":
-    runtime, data_path = check_io_start("ghs_LS_HS")
+    runtime = check_io_start()
 
     # problem configuration
     # problem_size = 1
@@ -160,14 +169,14 @@ if __name__ == "__main__":
                     [x for x in range(10, 55, 5)],
                     [x for x in range(10, 55, 5)]]
 
-    search_space = [[100, 500], [100, 500], [10, 55], [10, 55]]
+    # search_space = [[100, 500], [100, 500], [10, 55], [10, 55]]
 
-    variable_conf = {
-        "oil_prod": [[i] for i in range(400, 500, 100)],
-        "water_inj": [[i] for i in range(100, 500, 100)],
-        "time_HS": [[i] for i in range(10, 55, 5)],
-        "time_LS": [[i] for i in range(10, 55, 5)]
-    }
+    # variable_conf = {
+    #     "oil_prod": [[i] for i in range(400, 500, 100)],
+    #     "water_inj": [[i] for i in range(100, 500, 100)],
+    #     "time_HS": [[i] for i in range(10, 55, 5)],
+    #     "time_LS": [[i] for i in range(10, 55, 5)]
+    # }
 
     # algorithm configuration
     # [HMS, HMCR, PARmin, PARmax]
@@ -181,7 +190,7 @@ if __name__ == "__main__":
         with open(runtime, "a") as fout:
             t_start_a = time.time()
             # execute the algorithm
-            best = search(search_space, algo_iter, algo_conf, i, data_path)
+            best = search(search_space, algo_iter, algo_conf, i)
             t_end_a = time.time()
             t_total_a = t_end_a - t_start_a
             minute, second = divmod(t_total_a, 60)
