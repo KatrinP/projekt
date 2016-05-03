@@ -1,0 +1,364 @@
+<!DOCTYPE DEXXMLDoc SYSTEM "DEXXMLDoc.DTD">
+<DEXXMLDoc name="test.dxpx" creator="DX10" version="10.0.2.0">
+<designInfo studyType="ResponseSurface" studySubType="Randomized" designType="Optimal" noOfRuns="21" noOfFactors="4" noOfResponses="1">
+<designNotes>This data file created by Design-Expert 10</designNotes>
+<wizardAnswerPath>Characterization  &gt;  Factorial / RSM  &gt;  No HTC  &gt;  All Numeric with Discrete</wizardAnswerPath>
+</designInfo>
+<blockInfo>
+<block code="0" name="Block 1"/>
+</blockInfo>
+<factorInfo>
+<factor id="A" name="oil_prod" unit="" type="Numeric">
+<numeric format="General" low="100" high="1000" stdDev="0"/>
+</factor>
+<factor id="B" name="water_inj" unit="" type="Numeric">
+<numeric format="General" low="100" high="1000" stdDev="0"/>
+</factor>
+<factor id="C" name="time_HS" unit="" type="Numeric">
+<numeric format="General" low="10" high="50" stdDev="0">
+<level code="0">10</level>
+<level code="1">50</level>
+</numeric>
+</factor>
+<factor id="D" name="time_LS" unit="" type="Numeric">
+<numeric format="General" low="10" high="50" stdDev="0">
+<level code="0">10</level>
+<level code="1">50</level>
+</numeric>
+</factor>
+</factorInfo>
+<constraintInfo/>
+<responseInfo>
+<response id="1" name="R1" unit="" type="Normal" format="General" modelBase="Polynomial" stdDevSource="ANOVA" stdDev="14481.5838068386"/>
+</responseInfo>
+<guiState>
+<designLayout>
+<visibleColumns>
+<column type="runorder">
+<width>35</width>
+</column>
+<column id="A" type="factor">
+<width>72</width>
+</column>
+<column id="B" type="factor">
+<width>72</width>
+</column>
+<column id="C" type="factor">
+<width>72</width>
+</column>
+<column id="D" type="factor">
+<width>72</width>
+</column>
+<column id="1" type="response">
+<width>72</width>
+</column>
+</visibleColumns>
+</designLayout>
+<graphSettings>
+<graphArea name="Evaluation">
+<contours type="stdError" index="-1" transformed="false" mode="auto">
+<format>General</format>
+<contourLevel>0.5</contourLevel>
+<contourLevel>0.6</contourLevel>
+<contourLevel>0.7</contourLevel>
+<contourLevel>0.8</contourLevel>
+</contours>
+<space>
+<codedPoint>
+<codedValue>1</codedValue>
+<codedValue>-1</codedValue>
+<codedValue>1</codedValue>
+<codedValue>-1</codedValue>
+</codedPoint>
+<axis index="0">0</axis>
+<axis index="1">1</axis>
+<axis index="2">-1</axis>
+<axis index="3">-1</axis>
+</space>
+</graphArea>
+<graphArea name="GraphColumns">
+<colorBy type="stdOrder"/>
+</graphArea>
+<graphArea name="Diagnostics" index="0">
+<axis type="predicted">
+<low>50000</low>
+<high>300000</high>
+<format>0.00E+00</format>
+<ticks>6</ticks>
+</axis>
+<axis type="predicted">
+<low>50000</low>
+<high>300000</high>
+<format>0.00E+00</format>
+<ticks>6</ticks>
+</axis>
+<colorBy type="response" index="0"/>
+</graphArea>
+<graphArea name="Model" index="0">
+<contours type="response" index="0" transformed="false" mode="auto">
+<format>General</format>
+<contourLevel>160000</contourLevel>
+<contourLevel>180000</contourLevel>
+<contourLevel>200000</contourLevel>
+<contourLevel>220000</contourLevel>
+<contourLevel>240000</contourLevel>
+<contourLevel>260000</contourLevel>
+</contours>
+<space>
+<codedPoint>
+<codedValue>0</codedValue>
+<codedValue>0</codedValue>
+<codedValue>0</codedValue>
+<codedValue>0</codedValue>
+</codedPoint>
+<axis index="0">0</axis>
+<axis index="1">-1</axis>
+<axis index="2">-1</axis>
+<axis index="3">-1</axis>
+</space>
+</graphArea>
+<graphArea name="GraphicalOptimization">
+<contours type="overlay" index="-1" transformed="false" mode="auto">
+<format>General</format>
+<contourLevel></contourLevel>
+</contours>
+<space>
+<codedPoint>
+<codedValue>0.547589</codedValue>
+<codedValue>0.163618</codedValue>
+<codedValue>-0.814954</codedValue>
+<codedValue>-0.654176</codedValue>
+</codedPoint>
+<axis index="0">0</axis>
+<axis index="1">1</axis>
+<axis index="2">-1</axis>
+<axis index="3">-1</axis>
+</space>
+</graphArea>
+<graphArea name="NumericalOptimization">
+<contours type="desirability" index="-1" transformed="false" mode="auto">
+<format>General</format>
+<contourLevel>0.5</contourLevel>
+<contourLevel>0.6</contourLevel>
+<contourLevel>0.7</contourLevel>
+<contourLevel>0.8</contourLevel>
+<contourLevel>0.9</contourLevel>
+</contours>
+<contours type="desirability" index="0" transformed="false" mode="auto">
+<format>General</format>
+<contourLevel>180000</contourLevel>
+<contourLevel>200000</contourLevel>
+<contourLevel>220000</contourLevel>
+<contourLevel>240000</contourLevel>
+<contourLevel>260000</contourLevel>
+</contours>
+<space>
+<codedPoint>
+<codedValue>0.998576</codedValue>
+<codedValue>0.999352</codedValue>
+<codedValue>0.378378</codedValue>
+<codedValue>0.189189</codedValue>
+</codedPoint>
+<axis index="0">0</axis>
+<axis index="1">1</axis>
+<axis index="2">-1</axis>
+<axis index="3">-1</axis>
+</space>
+</graphArea>
+</graphSettings>
+</guiState>
+<designModel terms="11">
+<designTerm id="0" coef="1" term="Intercept"/>
+<designTerm id="1" coef="1" term="A"/>
+<designTerm id="2" coef="1" term="B"/>
+<designTerm id="3" coef="1" term="C"/>
+<designTerm id="4" coef="1" term="D"/>
+<designTerm id="5" coef="1" term="AB"/>
+<designTerm id="6" coef="1" term="AC"/>
+<designTerm id="7" coef="1" term="AD"/>
+<designTerm id="8" coef="1" term="BC"/>
+<designTerm id="9" coef="1" term="BD"/>
+<designTerm id="10" coef="1" term="CD"/>
+</designModel>
+<run stdNo="18" dsnId="15" runNo="1" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="1" buildPointName="Lack of Fit" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">222635.2</resVal>
+</run>
+<run stdNo="21" dsnId="17" runNo="2" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="2" buildPointName="Replicate" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">270653.2</resVal>
+</run>
+<run stdNo="19" dsnId="16" runNo="3" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">191560.7</resVal>
+</run>
+<run stdNo="7" dsnId="7" runNo="4" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">182228</resVal>
+</run>
+<run stdNo="5" dsnId="5" runNo="5" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="2" buildPointName="Replicate" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">242994.1</resVal>
+</run>
+<run stdNo="8" dsnId="7" runNo="6" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="2" buildPointName="Replicate" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">182228</resVal>
+</run>
+<run stdNo="6" dsnId="6" runNo="7" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">180171.9</resVal>
+</run>
+<run stdNo="9" dsnId="8" runNo="8" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="1" buildPointName="Lack of Fit" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">173194.2</resVal>
+</run>
+<run stdNo="1" dsnId="2" runNo="9" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="1" buildPointName="Lack of Fit" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">60123.55</resVal>
+</run>
+<run stdNo="17" dsnId="14" runNo="10" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="2" buildPointName="Replicate" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">222171.4</resVal>
+</run>
+<run stdNo="13" dsnId="11" runNo="11" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="2" buildPointName="Replicate" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">182228</resVal>
+</run>
+<run stdNo="3" dsnId="4" runNo="12" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">77126.51</resVal>
+</run>
+<run stdNo="14" dsnId="12" runNo="13" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="1" buildPointName="Lack of Fit" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">173194.2</resVal>
+</run>
+<run stdNo="16" dsnId="14" runNo="14" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">222171.4</resVal>
+</run>
+<run stdNo="15" dsnId="13" runNo="15" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">265146.8</resVal>
+</run>
+<run stdNo="10" dsnId="9" runNo="16" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">265146.8</resVal>
+</run>
+<run stdNo="20" dsnId="17" runNo="17" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">50</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">270653.2</resVal>
+</run>
+<run stdNo="2" dsnId="3" runNo="18" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">62613.48</resVal>
+</run>
+<run stdNo="12" dsnId="11" runNo="19" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">182228</resVal>
+</run>
+<run stdNo="11" dsnId="10" runNo="20" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="0" buildPointName="Model" note="" rowStatus="Normal">
+<facActual id="A">100</facActual>
+<facActual id="B">100</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">50</facActual>
+<resVal id="1">180171.9</resVal>
+</run>
+<run stdNo="4" dsnId="5" runNo="21" blockNo="0" blockName="Block 1" pointId="0" pointName="Vertex" buildPointId="1" buildPointName="Lack of Fit" note="" rowStatus="Normal">
+<facActual id="A">1000</facActual>
+<facActual id="B">1000</facActual>
+<facActual id="C">10</facActual>
+<facActual id="D">10</facActual>
+<resVal id="1">242994.1</resVal>
+</run>
+<responseModel id="1">
+<transform id="0" name="None"/>
+<compModel modelType="Polynomial" calcType="CodedCalc" hierarchicalActual="false" terms="11">
+<equationTerm id="0" coef="185145.063884409" term="Intercept"/>
+<equationTerm id="1" coef="29167.3427822581" term="A"/>
+<equationTerm id="2" coef="24158.4706201997" term="B"/>
+<equationTerm id="3" coef="27546.8779512289" term="C"/>
+<equationTerm id="4" coef="27546.8779512289" term="D"/>
+<equationTerm id="5" coef="26367.2892223502" term="AB"/>
+<equationTerm id="6" coef="-5776.80315092166" term="AC"/>
+<equationTerm id="7" coef="-5776.80315092166" term="AD"/>
+<equationTerm id="8" coef="-11475.2444009217" term="BC"/>
+<equationTerm id="9" coef="-11475.2444009217" term="BD"/>
+<equationTerm id="10" coef="-15720.3995276498" term="CD"/>
+</compModel>
+</responseModel>
+<optimization models="6">
+<criteria modType="Factor" id="1" goal="InRange" type="Numeric" target="550" limitLow="100" limitHigh="1000" weightLow="1" weightHigh="1" overlayLow="Missing" overlayHigh="Missing" importance="3" coding="Actual" scale="Original"/>
+<criteria modType="Factor" id="2" goal="InRange" type="Numeric" target="550" limitLow="100" limitHigh="1000" weightLow="1" weightHigh="1" overlayLow="Missing" overlayHigh="Missing" importance="3" coding="Actual" scale="Original"/>
+<criteria modType="Factor" id="3" goal="InRange" type="Numeric" target="30" limitLow="10" limitHigh="50" weightLow="1" weightHigh="1" overlayLow="Missing" overlayHigh="Missing" importance="3" coding="Actual" scale="Original"/>
+<criteria modType="Factor" id="4" goal="InRange" type="Numeric" target="30" limitLow="10" limitHigh="50" weightLow="1" weightHigh="1" overlayLow="Missing" overlayHigh="Missing" importance="3" coding="Actual" scale="Original"/>
+<criteria modType="Response" id="1" goal="Maximum" type="Numeric" target="270653.2" limitLow="60123.55" limitHigh="270653.2" weightLow="1" weightHigh="1" overlayLow="60123.55" overlayHigh="Missing" importance="3" coding="Actual" scale="Original"/>
+<criteria modType="POE" id="1" goal="None" type="Numeric" target="Missing" limitLow="Missing" limitHigh="Missing" weightLow="1" weightHigh="1" overlayLow="Missing" overlayHigh="Missing" importance="3" coding="Coded" scale="Transform"/>
+</optimization>
+<confirmationData alpha="0.05"/>
+<buildInfo noOfCenterPoints="0" noOfReplicates="5" coordinateExchange="true" pointExchange="true" noOfLackOfFit="5" noOfModelPoints="11" optimality="IOptimal" candMethodUsed="Point Exchange" modelPointTypeUsed="DOptimal" forceCategoricBalance="false" processOrder="2FI" buildTime="98">
+<candidatePoint pointType="vertex" factorSpace="numeric"/>
+<candidatePoint pointType="centedge" factorSpace="numeric"/>
+<candidatePoint pointType="thirdedge" factorSpace="numeric"/>
+<candidatePoint pointType="tripblend" factorSpace="numeric"/>
+<candidatePoint pointType="axialcb" factorSpace="numeric"/>
+<candidatePoint pointType="interior" factorSpace="numeric"/>
+<candidatePoint pointType="center" factorSpace="numeric"/>
+</buildInfo>
+</DEXXMLDoc>

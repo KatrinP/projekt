@@ -12,6 +12,12 @@
 **/sim_case/*
 !**/sim_case/include
 !**/sim_case/*.DATA
+**/end_result/*
+!**/end_result/*.rar
+!**/end_result/*.zip
+!**/end_result/*.result
+
+.vscode/
 
 #########################
 ## DEFAULT FOR PYTHON ###
