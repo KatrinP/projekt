@@ -77,6 +77,7 @@ def read_rsm_file(file_path):
                     new_run.attributes[i].values.append(value)
 
         rsm.runs.append(new_run)
+        rsm.attributes.extend(new_run.attributes)
         rsm.run_nb += 1
     return rsm
 
@@ -105,5 +106,5 @@ def get_value_of_attribute_at_given_position(rsm, attribute_name, position):
 if __name__ == '__main__':
     rsm_path = sys.argv[1]
     rsm = read_rsm_file(rsm_path)
-    print(get_last_value_of_attribute(rsm, "GWIT"))
+    print(get_last_value_of_attribute(rsm, "FOPT"))
     print(get_value_of_attribute_at_given_position(rsm, "WWPR", 1))
