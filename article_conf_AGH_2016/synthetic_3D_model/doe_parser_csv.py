@@ -31,7 +31,7 @@ def get_response(doe):
 
 def write_csv(csv_path, doe):
     with open(csv_path, "w") as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter=",")
+        csv_writer = csv.writer(csv_file, delimiter=",", lineterminator='\n',)
 
         csv_writer.writerow(doe.types)
         csv_writer.writerow(doe.names)
