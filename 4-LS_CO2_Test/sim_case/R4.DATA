@@ -24,7 +24,7 @@ TITLE
   SPE Fifth Comparison Test Problem - Scenario 2 - 4 Phase
 
 DIMENS
-  7 7 3 /
+  10 10 10 /
 
 NONNC
 OIL
@@ -66,23 +66,30 @@ UNIFIN
 ------------------------------- Grid Section -----------------------------------
 GRID
 
+INIT
+
+--     ARRAY  VALUE     ------- BOX ------
 EQUALS
-'DX' 500 /
-'DY' 500 /
-'PORO' 0.3 /
-'DZ' 20 1 7 1 7 1 1 /
-'PERMX' 500 /
-'PERMZ' 50 /
-'TOPS' 8325 /
-'DZ' 30 1 7 1 7 2 2 /
-'PERMX' 50 /
-'PERMZ' 50 /
-'DZ' 50 1 7 1 7 3 3 /
-'PERMX' 200 /
-'PERMZ' 25 /
+      'DX'    1000      /
+      'DY'    1000      /
+      'PORO'  0.3       /
+
+      'DZ'    20        1  10  1  10  1  1  /
+      'PERMX' 500 /
+      'PERMZ' 50 /
+      'TOPS'  8325      /
+
+      'DZ'    30        1  10  1  10  2  2  /
+      'PERMX' 50        /
+      'PERMZ' 50 /
+
+      'DZ'    50        1  10  1  10  3  10  /
+      'PERMX' 200       /
+      'PERMZ' 25 /
 /
+
 COPY
-'PERMX' 'PERMY' 1 7 1 7 1 3 /
+'PERMX' 'PERMY' 1 10 1 10 1 10 /
 /
 
 RPTGRID
@@ -252,7 +259,7 @@ RPTPROPS
 REGIONS
 
 SATNUM
-147*1 /
+1000*1 /
 
 ------------------------------ Solution Section --------------------------------
 SOLUTION
@@ -279,6 +286,9 @@ SUMMARY
 
 INCLUDE
 'INCLUDE/R4_SUMMARY.INC' /
+
+INCLUDE
+'INCLUDE/BLOCKS.INC' /
 
 ------------------------------ Schedule Section --------------------------------
 SCHEDULE 
