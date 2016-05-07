@@ -1,0 +1,54 @@
+-- INCLUDED FILE: CASE2.ONEYEAR
+-- FIRST 3 MONTHS ------------------------------------------------
+--*WATER*--
+TUNING
+2.0 /
+/
+/
+WELOPEN
+'INJ-G' 'SHUT' /
+'INJ-W' 'OPEN'/
+/
+TSTEP
+91.25
+/
+-- SECOND 3 MONTHS -------------------------------------------------
+--*GAS*--
+TUNING
+2.0 /
+/
+/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25
+/
+--THIRD 3 MONTHS --------------------------------------------------
+--*WATER*--
+TUNING
+2.0 /
+/
+/
+WELOPEN
+'INJ-G' 'SHUT' /
+'INJ-W' 'OPEN' /
+/
+TSTEP
+91.25
+/
+-- FOURTH 3 MONTHS ----------------------------------------------
+--*GAS*--
+TUNING
+2.0 /
+/
+/
+WELOPEN
+'INJ-W' 'SHUT' /
+'INJ-G' 'OPEN' /
+/
+TSTEP
+91.25
+/
+-----------------------------------------------------------------

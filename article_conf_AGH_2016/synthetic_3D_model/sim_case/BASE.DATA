@@ -449,7 +449,7 @@ WCONPROD
 /
 --Reservoir fluid volume rate target or upper limit
 WCONINJE
-'INJ' 'WAT' 'OPEN' 'RESV' 1* 1000  /
+'INJ' 'WAT' 'OPEN' 'RESV' 1* 100  /
 /
 
 -- UDQ 
@@ -458,7 +458,7 @@ WCONINJE
 
 -- Time of HS injection
 TSTEP
-10*30 /
+50*30 /
 
 WSALT
 INJ 0.0 /
@@ -466,7 +466,7 @@ INJ 0.0 /
 
 -- Time of LS injection
 TSTEP
-10*30/
+50*30/
 
 END
 
