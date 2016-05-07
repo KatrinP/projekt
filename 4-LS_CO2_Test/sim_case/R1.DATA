@@ -286,10 +286,10 @@ WSOLVENT
 /
 -- YEAR 1 ------------------------------------------------------
 INCLUDE
-'CASE2.ONEYEAR' /
+'CASE2_ONEYEAR.DATA' /
 -- YEAR 2 ------------------------------------------------------
 INCLUDE
-'CASE2.ONEYEAR' /
+'CASE2_ONEYEAR.DATA' /
 
 WSALT
 'INJ-W' 1.0 /

@@ -1,3 +1,7 @@
+-------------------------------------------------------------------------------
+-- DATAFILE FOR ECLIPSE DYNAMIC REGIONS TESTING
+-------------------------------------------------------------------------------
+
 -- ============ FIRST ============
 -- Solvent + Miscible + Brine
 -- BRINE
@@ -8,7 +12,7 @@
 -- dynamic Regions for reporting salinity in block
 -- DYNAMICR
 
-
+---------------------------- Runspec Section -----------------------------------
 RUNSPEC
 TITLE
   SPE Fifth Comparison Test Problem - Scenario 2 - 4 Phase
@@ -32,8 +36,11 @@ MISCIBLE
 
 EQLDIMS
 1 100 10 1 1 /
+
 WELLDIMS
-3 1 1 3 /
+-- MaxNo  MaxPerf  MaxGroup MaxWell/Group
+     3       1         1         3  /
+
 START
 1 'JAN' 1986 /
 NSTACK
@@ -42,7 +49,18 @@ FMTIN
 UNIFOUT
 UNIFIN
 
---============================================================
+DYNRDIMS
+5 2 10 /
+
+---------------------------------------------
+-- Switching on parallel mode, example is for
+-- 4 processor machine
+
+--PARALLEL
+--4  'DISTRIBUTED' /
+---------------------------------------------
+
+------------------------------- Grid Section -----------------------------------
 GRID
 
 EQUALS
@@ -68,7 +86,10 @@ RPTGRID
   'DX' 'DY' 'DZ' 'PERMX' 'PERMY' 'PERMZ' 'MULTZ'
   'PORO' 'TOPS' 'PORV' 'TRANX' 'TRANY' 'TRANZ' /
 
---============================================================
+------------------------------- Edit Section -----------------------------------
+
+
+------------------------------ Properties Section ------------------------------
 PROPS
 
 SWFN
@@ -224,40 +245,39 @@ RPTPROPS
 'SOF2' 'SWFN' 'SGFN' 'PVTW'
 'PVTG' 'DENSITY' 'ROCK' /
 
---============================================================
+------------------------------- Regions Section --------------------------------
 REGIONS
 
 SATNUM
 147*1 /
 
---============================================================
+------------------------------ Solution Section --------------------------------
 SOLUTION
 
 EQUIL
+-- DATUM   DATUM    OWC    OWC      GOC     GOC     RSVD   RVVD   ACCURACY OPT
+-- DEPTH   PRESS   DEPTH   PCOW    DEPTH    PCOG    TABLE  TABLE  No of LAYERS
 8400 4000 9900 0 1000 0 1 0 0 /
 RSVD
 8200 0.5728
 8500 0.5728 /
+
 RPTSOL
-'PRES' 'SOIL' 'SWAT' 'SGAS' 'FIP' 'FIPSOL'/
+RESTART=2 DYNREG /
+
 
 SALTVD
 7000 1.4
 8000 1.4 /
 
-ACTIONX
-ACT1 10000 /
-"ALWAYS"/
-/
-DYNAMICR
-FIPYYY 1 /
-BSIP <= 30 /
-/ENDDYN
-ENDACTIO
+RPTRST
+DYNREG /
 
---============================================================
+------------------------------- Summary Section --------------------------------
 SUMMARY
-
+------------------------------------------------
+--Output of production data/pressure  for FIELD:
+------------------------------------------------
 FOPT
 FGPT
 FWPT
@@ -273,16 +293,33 @@ FWPR
 -- /
 BSIP
 /
-
+-----------------------------------------
+--Output of production data for all wells:
+-----------------------------------------
 RUNSUM
 SEPARATE
-
---============================================================
+ALL
+TCPU
+------------------------------ Schedule Section --------------------------------
 SCHEDULE 
 
 RPTSCHED
-'PRES' 'SOIL' 'SWAT' 'SGAS' 'SUMMARY=2'
-'CPU=2' /
+SUMMARY=2 FIP=3/    
+
+RPTRST
+BASIC=2 FIP DYNREG /
+
+-- ACTIONX
+-- ACT1 10000 /
+-- "ALWAYS"/
+-- /
+-- DYNAMICR
+-- FIPYYY 1 /
+-- BSIP <= 30 /
+-- ENDDYN
+-- ENDACTIO
+
+
 WELSPECS
 'PRODUCER' 'G' 7 7 8400 'OIL' /
 'INJ-G ' 'G' 1 1 8335 'GAS' /
@@ -306,12 +343,28 @@ WCONINJ
 WSOLVENT
 'INJ-G' 1.0 /
 /
+
+ACTIONX
+ACT1 10000 /
+"ALWAYS" /
+/
+
+DYNAMICR
+ FIPYYY 1/
+   BWSAT <= 0.251 /
+   /
+      FIPYYY   2  /
+      BWSAT > 0.251 /
+      /
+ENDDYN
+ENDACTIO
+
 -- YEAR 1 ------------------------------------------------------
 INCLUDE
-'CASE2.ONEYEAR' /
+'CASE2_ONEYEAR.DATA' /
 -- YEAR 2 ------------------------------------------------------
 INCLUDE
-'CASE2.ONEYEAR' /
+'CASE2_ONEYEAR.DATA' /
 
 WSALT
 'INJ-W' 1.0 /
